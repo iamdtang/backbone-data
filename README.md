@@ -3,7 +3,7 @@ backbone-data
 
 [![Build Status](https://travis-ci.org/skaterdav85/backbone-data.svg)](https://travis-ci.org/skaterdav85/backbone-data)
 
-A simple Ember inspired data store for Backbone.
+A simple data store for backbone models and collections inspired by Ember Data and angular-data.
 
 ### Install
 
@@ -26,7 +26,7 @@ Until I get documentation up, see the test files for examples. Here is a summary
 
 ### Asynchronous Methods
 
-
+WIP
 
 ### Tests
 
