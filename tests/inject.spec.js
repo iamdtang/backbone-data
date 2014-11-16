@@ -1,0 +1,48 @@
+describe('inject()', function() {
+	var people;
+	var Person;
+	var PersonCollection;
+
+	beforeEach(function() {
+		Person = Backbone.Model.extend();
+		PersonCollection = Backbone.Collection.extend({
+			model: Person
+		});
+
+		DS.defineResource({
+			name: 'person',
+			idAttribute: 'id',
+			model: Person,
+			collection: PersonCollection
+		});
+
+		people = [
+			{ id: 1, name: 'John', age: 54 },
+			{ id: 2, name: 'Jane', age: 24 },
+			{ id: 3, name: 'Matt', age: 34 }
+		];
+	});
+
+	afterEach(function() {
+		DS.ejectAll('person');
+		DS.removeResource('person');
+	});
+
+	it('should append an array of models to the collection in the store', function() {
+		DS.inject('person', people);
+		DS.inject('person', [
+			{ id: 4, name: 'Mary', age: 23 }
+		]);
+
+		var collection = DS.getAll('person');
+		expect(collection.length).to.equal(4);
+	});
+
+	it('should append a single model to the collection in the store', function() {
+		DS.inject('person', people);
+		DS.inject('person', { id: 4, name: 'Mary', age: 23 });
+
+		var collection = DS.getAll('person');
+		expect(collection.length).to.equal(4);
+	});
+});
