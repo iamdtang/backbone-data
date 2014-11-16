@@ -42,4 +42,8 @@ describe('getAll()', function() {
 
 		expect(collection1).to.equal(collection2);
 	});
+
+	it('should return a collection even if no data was injected', function() {
+		expect(DS.getAll('person').length).to.equal(0);
+	});
 });
