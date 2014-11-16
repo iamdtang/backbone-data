@@ -1,6 +1,21 @@
 {
-	"name": "DS",
+	"name": "backbone-data",
+	"description": "A simple data store for backbone models and collections inspired by Ember data",
+	"version": "0.0.0",
+	"authors": [
+    "David Tang"
+  ],
+  "license": "MIT",
+  "main": "dist/backbone-ds.min.js",
 	"dependencies": {
     "backbone": "~1.1.2"
-  }
+  },
+  "ignore": [
+    "node_modules",
+    "karma.conf.js",
+    ".gitignore",
+    ".travis.yml",
+    "bower_components",
+    "tests"
+  ]
 }
