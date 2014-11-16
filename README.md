@@ -1,6 +1,8 @@
 backbone-data
 =============
 
+[![Build Status](https://travis-ci.org/skaterdav85/backbone-data.svg)](https://travis-ci.org/skaterdav85/backbone-data)
+
 A simple Ember inspired data store for Backbone.
 
 ### Synchronous Methods
