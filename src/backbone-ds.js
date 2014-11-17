@@ -38,8 +38,8 @@
 			attr[idAttribute] = id;
 			model = collection.findWhere(attr);
 
-			if (!model) {
-				return null;
+			if (model) {
+				return model;
 			}
 		}
 
@@ -56,6 +56,30 @@
 		if (collection) {
 			collection.reset();	
 		}
+	};
+
+	/** 
+	 * Find a model
+	 * @param  {[type]} resourceName [description]
+	 * @param  {[type]} id           [description]
+	 * @return {promise}              [description]
+	 */
+	DS.find = function(resourceName, id) {
+		var attr = {};
+		var idAttribute = resources[resourceName].idAttribute;
+		var model = this.get('person', id);
+		var dfd;
+		var promise;
+
+		if (model) {
+			dfd = $.Deferred();
+			dfd.resolve(model);
+			return dfd.promise();
+		}
+
+		attr[idAttribute] = id;
+		model = new resources[resourceName].model(attr);
+		return model.fetch();
 	};
 
 	DS.removeResource = function(resourceName) {

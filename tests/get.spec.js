@@ -30,6 +30,7 @@ describe('get()', function() {
 	it('should return the same object if already in the store', function() {
 		DS.inject('person', people);
 		expect(DS.get('person', 2)).to.equal(DS.get('person', 2));
+		expect(DS.get('person', 2).toJSON()).to.eql({ id: 2, name: 'Jane', age: 24 });
 	});
 
 	it('should return null if the object doesnt exist in the store', function() {

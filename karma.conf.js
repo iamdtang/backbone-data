@@ -12,6 +12,7 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
+            { pattern: 'bower_components/jquery/dist/jquery.js' },
             { pattern: 'bower_components/underscore/underscore.js' },
             { pattern: 'bower_components/backbone/backbone.js' },
             { pattern: 'src/*.js' },

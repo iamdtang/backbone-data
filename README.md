@@ -26,7 +26,7 @@ Until I get documentation up, see the test files for examples. Here is a summary
 
 ### Asynchronous Methods
 
-WIP
+* DS.find(resourceName, id)
 
 ### Tests
 
