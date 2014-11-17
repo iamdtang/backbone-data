@@ -5,7 +5,9 @@ describe('find()', function() {
 
 	beforeEach(function() {
 		Person = Backbone.Model.extend({
-			url: 'people'
+			url: function() {
+				return '/people/' + this.get('id')
+			}
 		});
 
 		PersonCollection = Backbone.Collection.extend({
@@ -31,26 +33,29 @@ describe('find()', function() {
 		DS.removeResource('person');
 	});
 
-	it('should make a request for a model if it is not in the store', function() {
-		var spy = sinon.spy(Backbone.Model.prototype, 'fetch');
-		DS.find('person', 88);
-		expect(spy.callCount).to.equal(1);
-		Backbone.Model.prototype.fetch.restore();
-	});
-
-	it('should store a model into the store when it has fetched', function() {
-
-	});
-
-	it('should not make a request if the model is already in the store', function() {
+	it('should not make a request for the model if it is already in the store', function() {
 		DS.inject('person', people);
-		var spy = sinon.spy(Backbone.Model.prototype, 'fetch');
+		var stub = sinon.stub(Backbone.Model.prototype, 'fetch');
 		DS.find('person', 2).then(function(model) {
 			expect(model.toJSON()).to.eql({ id: 2, name: 'Jane', age: 24 });
 		});
 
-		expect(spy.callCount).to.equal(0);
+		expect(stub.callCount).to.equal(0);
 		Backbone.Model.prototype.fetch.restore();
 	});
 
+	it('should store a model in the store when it has fetched it successfully', function(done) {
+		var server = sinon.fakeServer.create();
+		server.respondWith("GET", "/people/33",
+	        [200, { "Content-Type": "application/json" },
+	         '{ "id": 33, "name": "Gwen" }']);
+
+		DS.find('person', 33).done(function() {
+			expect(DS.get('person', 33).toJSON()).to.eql({ "id": 33, "name": "Gwen" });
+			done();	
+		});
+
+		server.respond();
+		server.restore();
+	});
 });

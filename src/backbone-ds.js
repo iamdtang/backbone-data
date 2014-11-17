@@ -68,18 +68,23 @@
 		var attr = {};
 		var idAttribute = resources[resourceName].idAttribute;
 		var model = this.get('person', id);
-		var dfd;
+		var dfd = $.Deferred();
 		var promise;
 
 		if (model) {
-			dfd = $.Deferred();
 			dfd.resolve(model);
 			return dfd.promise();
 		}
 
 		attr[idAttribute] = id;
 		model = new resources[resourceName].model(attr);
-		return model.fetch();
+
+		return model.fetch().then(function() {
+			DS.inject(resourceName, model);
+			return model;
+		}, function() {
+			throw new Error('error fetching model: ' + id);
+		});		
 	};
 
 	DS.removeResource = function(resourceName) {
