@@ -23,7 +23,8 @@
 	};
 
 	DS.inject = function(resourceName, data) {
-		store[resourceName].add(data);
+		var collection = store[resourceName];
+		collection.add(data);
 	};
 
 	DS.get = function(resourceName, id) {
@@ -85,6 +86,20 @@
 		}, function() {
 			throw new Error('error fetching model: ' + id);
 		});		
+	};
+
+	/**
+	 * request a collection from the server and inject models in store
+	 */
+	DS.findAll = function(resourceName) {
+		var collection = store[resourceName];
+
+		return collection.fetch().then(function(models) {
+			DS.inject(resourceName, models);
+			return collection;
+		}, function() {
+			throw new Error('error fetching collection: ' + resourceName);
+		});
 	};
 
 	DS.removeResource = function(resourceName) {

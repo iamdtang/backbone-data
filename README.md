@@ -27,6 +27,7 @@ Until I get documentation up, see the test files for examples. Here is a summary
 ### Asynchronous Methods
 
 * DS.find(resourceName, id)
+* DS.findAll(resourceName)
 
 ### Tests
 
