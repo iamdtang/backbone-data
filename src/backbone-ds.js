@@ -142,9 +142,9 @@
 	window.DS = DS;
 
 	if (typeof define === "function" && define.amd) {
-    define("DS", [], function() {
-        return DS;
-    });
+		define("DS", [], function() {
+			return DS;
+		});
 	}
 
 })(window);
