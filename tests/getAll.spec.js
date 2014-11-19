@@ -25,7 +25,7 @@ describe('getAll()', function() {
 
 	afterEach(function() {
 		DS.ejectAll('person');
-		DS.removeResource('person');
+		DS.reset();
 	});
 
 	it('should return a collection of models', function() {

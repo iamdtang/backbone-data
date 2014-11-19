@@ -5,19 +5,34 @@
 	
 	DS.defineResource = function(resourceDefinition) {
 		var resourceName;
+		var required = ['idAttribute', 'name', 'collection', 'model'];
 
-		if (!resourceDefinition.collection) {
-			throw new Error('You must specify a collection when defining a resource');
-		}
+		required.forEach(function(prop) {
+			if (!resourceDefinition.hasOwnProperty(prop) || !resourceDefinition[prop]) {
+				throw new Error(prop + ' must be specified when defining a resource');
+			}
+		});
 
 		resourceName = resourceDefinition.name;
+		
+		if (resources[resourceName]) {
+			throw new Error(resourceName + ' resource has already been defined!');
+		}
+
 		resources[resourceName] = resourceDefinition;
 		
 		if (!store[resourceName]) {
 			store[resourceName] = new resourceDefinition.collection();
 		}
+
+		return this;
 	};
 
+	/**
+	 * Create a new instance of a resource
+	 * @param  {String} resourceName 	The name of the resource when defined
+	 * @return {Backbone.Model}       
+	 */
 	DS.createInstance = function(resourceName) {
 		return new resources[resourceName].model();
 	};
@@ -25,6 +40,8 @@
 	DS.inject = function(resourceName, data) {
 		var collection = store[resourceName];
 		collection.add(data);
+
+		return this;
 	};
 
 	DS.get = function(resourceName, id) {
@@ -47,6 +64,11 @@
 		return null;
 	};
 
+	/**
+	 * Synchronously return all items from the store for a given resource
+	 * @param  {String} resourceName 	The name of the resource when defined
+	 * @return {Backbone.Collection}  The collection associated with resourceName
+	 */
 	DS.getAll = function(resourceName) {
 		return store[resourceName];
 	};
@@ -60,10 +82,12 @@
 	};
 
 	/** 
-	 * Find a model
-	 * @param  {[type]} resourceName [description]
-	 * @param  {[type]} id           [description]
-	 * @return {promise}              [description]
+	 * Find a model from the store. If not in store, fetches it asynchronously
+	 * and puts the model in the store
+	 * 
+	 * @param  {String} resourceName The name of the resource when defined
+	 * @param  {Number|String} id    The unique ID of the model to find
+	 * @return {promise}             Returns a jQuery promise
 	 */
 	DS.find = function(resourceName, id) {
 		var attr = {};
@@ -89,7 +113,9 @@
 	};
 
 	/**
-	 * request a collection from the server and inject models in store
+	 * Request a collection from the server and inject models in store.
+	 * This does reset the collection for resourceName.
+	 * Still debating on if this is what it should do...
 	 */
 	DS.findAll = function(resourceName) {
 		var collection = store[resourceName];
@@ -102,10 +128,23 @@
 		});
 	};
 
-	DS.removeResource = function(resourceName) {
-		delete store[resourceName];
+	/**
+	 * Clear out the entire store and all resources
+	 * @return {Object}		Return the DS instance
+	 */
+	DS.reset = function() {
+		store = {};
+		resources = {};
+
+		return this;
 	};
 
 	window.DS = DS;
+
+	if (typeof define === "function" && define.amd) {
+    define("DS", [], function() {
+        return DS;
+    });
+	}
 
 })(window);

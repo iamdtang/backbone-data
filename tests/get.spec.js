@@ -24,7 +24,7 @@ describe('get()', function() {
 
 	afterEach(function() {
 		DS.ejectAll('person');
-		DS.removeResource('person');
+		DS.reset();
 	});
 
 	it('should return the same object if already in the store', function() {

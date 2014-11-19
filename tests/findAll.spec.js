@@ -25,7 +25,7 @@ describe('find()', function() {
 
 	afterEach(function() {
 		DS.ejectAll('person');
-		DS.removeResource('person');
+		DS.reset();
 	});
 
 	it('should make an http request for data and put items in the store', function(done) {

@@ -17,7 +17,7 @@ describe('ejectAll()', function() {
 	});
 
 	afterEach(function() {
-		DS.removeResource('person');
+		DS.reset();
 	});
 
 	it('should eject all models from a collection but keep the collection', function() {

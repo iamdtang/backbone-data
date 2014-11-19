@@ -29,6 +29,16 @@ Until I get documentation up, see the test files for examples. Here is a summary
 * DS.find(resourceName, id)
 * DS.findAll(resourceName)
 
+### AMD Support
+
+The AMD module name is 'DS'.
+
+```js
+define(['DS'], function(DS) {
+	// your AMD module code here
+});
+```
+
 ### Tests
 
 Tests are using Mocha, Chai, and Sinon. Run tests with karma.

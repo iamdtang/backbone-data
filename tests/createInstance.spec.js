@@ -10,7 +10,7 @@ describe('createInstance()', function() {
 	});
 
 	afterEach(function() {
-		DS.removeResource('person');
+		DS.reset();
 	});
 
 	it('should allow you to create an instance of a Backbone model', function() {

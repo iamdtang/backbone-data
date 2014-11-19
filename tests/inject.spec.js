@@ -25,7 +25,7 @@ describe('inject()', function() {
 
 	afterEach(function() {
 		DS.ejectAll('person');
-		DS.removeResource('person');
+		DS.reset();
 	});
 
 	it('should append an array of models to the collection in the store', function() {

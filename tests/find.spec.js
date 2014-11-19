@@ -30,7 +30,7 @@ describe('find()', function() {
 
 	afterEach(function() {
 		DS.ejectAll('person');
-		DS.removeResource('person');
+		DS.reset();
 	});
 
 	it('should not make a request for the model if it is already in the store', function() {
