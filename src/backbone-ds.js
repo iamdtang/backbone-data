@@ -132,6 +132,22 @@
 	};
 
 	/**
+	 * Proxies to Backbone.Collection.prototype.where
+	 * @param  {String} resourceName The name of the resource when defined
+	 * @param  {Object} attributes   Attributes property that is passed to collection.where()
+	 * @return {Collection}          A new filtered resource collection
+	 */
+	DS.where = function(resourceName, attributes) {
+		var collection = store[resourceName];
+		var Collection = resources[resourceName].collection;
+		var filteredCollection = new Collection();
+		var models = collection.where(attributes);
+
+		filteredCollection.add(models);
+		return filteredCollection;
+	};
+
+	/**
 	 * Clear out the entire store and all resources
 	 * @return {Object}		Return the DS instance
 	 */

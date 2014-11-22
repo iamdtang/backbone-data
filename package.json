@@ -11,7 +11,7 @@
         "url": "https://github.com/skaterdav85/backbone-data/issues"
     },
     "keywords": [
-        "backbone data store", "data store", "DS", "Backbone.js", "Ember Data"
+        "backbone data store", "data store", "DS", "Backbone.js", "Ember Data", "angular-data"
     ],
     "license": "MIT",
 	"devDependencies": {
