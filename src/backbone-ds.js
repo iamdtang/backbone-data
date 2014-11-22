@@ -142,7 +142,7 @@
 	window.DS = DS;
 
 	if (typeof define === "function" && define.amd) {
-		define("DS", [], function() {
+		define(['backbone'], function(Backbone) {
 			return DS;
 		});
 	}
