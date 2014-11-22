@@ -37,11 +37,14 @@
 		return new resources[resourceName].model();
 	};
 
+	/**
+	 * Inject data into the store for a given resource
+	 * @param  {String} resourceName 	The name of the resource when defined
+	 * @return {Array|Backbone.Model}   The added models
+	 */
 	DS.inject = function(resourceName, data) {
 		var collection = store[resourceName];
-		collection.add(data);
-
-		return this;
+		return collection.add(data);
 	};
 
 	DS.get = function(resourceName, id) {

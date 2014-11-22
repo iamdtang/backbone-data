@@ -45,4 +45,12 @@ describe('inject()', function() {
 		var collection = DS.getAll('person');
 		expect(collection.length).to.equal(4);
 	});
+
+	it('should return the models injected into the store', function() {
+		var models = DS.inject('person', people);
+
+		expect(models[0].toJSON()).to.eql({ id: 1, name: 'John', age: 54 });
+		expect(models[1].toJSON()).to.eql({ id: 2, name: 'Jane', age: 24 });
+		expect(models[2].toJSON()).to.eql({ id: 3, name: 'Matt', age: 34 });
+	});
 });
