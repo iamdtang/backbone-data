@@ -8,4 +8,9 @@ gulp.task('default', function() {
 		.pipe(concat('backbone-ds.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('dist/'));
+
+	gulp
+		.src('src/*.js')
+		.pipe(concat('backbone-ds.js'))
+		.pipe(gulp.dest('dist/'));
 });

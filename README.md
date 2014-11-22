@@ -14,10 +14,10 @@ A simple data store for backbone models and collections inspired by Ember Data a
 
 ### Install
 
-Grab the minified file from the _dist_ directory and include it on your page.
+Grab the minified or unminified file from the _dist_ directory and include it on your page.
 
 ```html
-<script src="backbone-ds.min.js"></script>
+<script src="dist/backbone-ds.min.js"></script>
 ```
 
 This library exposes a global variable called _DS_ (Data Store) and it is also registers itself for AMD (Require.js).
