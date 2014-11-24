@@ -46,12 +46,12 @@ describe('find()', function() {
 
 	it('should store a model in the store when it has fetched it successfully', function(done) {
 		var server = sinon.fakeServer.create();
-		server.respondWith("GET", "/people/33",
+		server.respondWith("GET", "/people/12345",
 	        [200, { "Content-Type": "application/json" },
-	         '{ "id": 33, "name": "Gwen" }']);
+	         '{ "id": 12345, "name": "Gwen" }']);
 
-		DS.find('person', 33).done(function() {
-			expect(DS.get('person', 33).toJSON()).to.eql({ "id": 33, "name": "Gwen" });
+		DS.find('person', 12345).done(function() {
+			expect(DS.get('person', 12345).toJSON()).to.eql({ "id": 12345, "name": "Gwen" });
 			done();	
 		});
 

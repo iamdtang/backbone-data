@@ -95,7 +95,7 @@
 	DS.find = function(resourceName, id) {
 		var attr = {};
 		var idAttribute = resources[resourceName].idAttribute;
-		var model = this.get('person', id);
+		var model = this.get(resourceName, id);
 		var dfd = $.Deferred();
 		var promise;
 
