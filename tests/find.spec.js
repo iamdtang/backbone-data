@@ -58,4 +58,60 @@ describe('find()', function() {
 		server.respond();
 		server.restore();
 	});
+
+	it('should allow an array of models to be specified as incomplete when injected', function(done) {
+		DS.inject('person', people, { incomplete: true });
+
+		var server = sinon.fakeServer.create();
+		server.respondWith("GET", "/people/3",
+	        [200, { "Content-Type": "application/json" },
+	         '{ "id": 3, "name": "Matt", "age": 34, "middle": "Ryu" }']);
+
+		DS.find('person', 3).done(function(person3) {
+			expect(DS.get('person', 3).toJSON()).to.eql({ id: 3, name: "Matt", age: 34, middle: "Ryu" });
+			expect(DS.get('person', 3)).to.equal(person3);
+			done();
+		});
+
+		server.respond();
+		server.restore();
+	});
+
+	it('should allow a single model to be specified as incomplete when injected', function(done) {
+		DS.inject('person', people[2], { incomplete: true });
+
+		var server = sinon.fakeServer.create();
+		server.respondWith("GET", "/people/3",
+	        [200, { "Content-Type": "application/json" },
+	         '{ "id": 3, "name": "Matt", "age": 34, "middle": "Ryu" }']);
+
+		DS.find('person', 3).done(function(person3) {
+			expect(DS.get('person', 3).toJSON()).to.eql({ id: 3, name: "Matt", age: 34, middle: "Ryu" });
+			expect(DS.get('person', 3)).to.equal(person3);
+			done();
+		});
+
+		server.respond();
+		server.restore();
+	});
+
+	it('should not make subsequent http requests if an incomplete model turns complete', function() {
+		var spy = sinon.spy(Backbone.Model.prototype, 'fetch');
+		var server = sinon.fakeServer.create();
+		server.respondWith("GET", "/people/3",
+	        [200, { "Content-Type": "application/json" },
+	         '{ "id": 3, "name": "Matt", "age": 34, "middle": "Ryu" }']);
+
+		DS.inject('person', people[2], { incomplete: true });
+		DS.find('person', 3).then(function() {
+			DS.find('person', 3).then(function() {
+				expect(spy.callCount).to.equal(1);
+			});
+		});
+
+		server.respond();
+		server.respond();
+		server.restore();
+		Backbone.Model.prototype.fetch.restore();
+	});
 });

@@ -2,7 +2,37 @@
 	var DS = {};
 	var resources = {};
 	var store = {};
+	var incomplete = {};
 	
+	/**
+	 * @param  {String} resourceName 	The name of the resource when defined
+	 * @param  {Array|Object} data		A array of object or just a plain json object
+	 */
+	function addIncomplete(resourceName, data) {
+		var idAttribute = resources[resourceName].idAttribute;
+		var id;
+
+		incomplete[resourceName] = incomplete[resourceName] || {};
+
+		if (_.isArray(data)) {
+			data.forEach(function(item) {
+				var id = item[idAttribute];
+				incomplete[resourceName][id] = true;
+			});	
+		} else {
+			id = data[idAttribute];
+			incomplete[resourceName][id] = true;
+		}
+	}
+
+	function isIncomplete(resourceName, id) {
+		if (incomplete[resourceName]) {
+			return incomplete[resourceName][id];
+		}
+			
+		return false; 
+	}
+
 	DS.defineResource = function(resourceDefinition) {
 		var resourceName;
 		var required = ['idAttribute', 'name', 'collection', 'model'];
@@ -40,10 +70,19 @@
 	/**
 	 * Inject data into the store for a given resource
 	 * @param  {String} resourceName 	The name of the resource when defined
+	 * @param  {Array|Object} data		A array of object or just a plain json object
 	 * @return {Array|Backbone.Model}   The added models
 	 */
-	DS.inject = function(resourceName, data) {
-		var collection = store[resourceName];
+	DS.inject = function(resourceName, data, options) {
+		var collection;
+
+		options = _.extend({ incomplete: false }, options);
+		collection = store[resourceName];
+
+		if (options.incomplete) {
+			addIncomplete(resourceName, data);	
+		}
+		
 		return collection.add(data);
 	};
 
@@ -96,20 +135,27 @@
 		var attr = {};
 		var idAttribute = resources[resourceName].idAttribute;
 		var model = this.get(resourceName, id);
+		var newModel;
 		var dfd = $.Deferred();
-		var promise;
 
-		if (model) {
+		if (model) {			
+			if (isIncomplete(resourceName, id)) {
+				return model.fetch().then(function() {
+					delete incomplete[resourceName][id];
+					return model;
+				});
+			} 
+
 			dfd.resolve(model);
 			return dfd.promise();
 		}
 
 		attr[idAttribute] = id;
-		model = new resources[resourceName].model(attr);
+		newModel = new resources[resourceName].model(attr);
 
-		return model.fetch().then(function() {
-			DS.inject(resourceName, model);
-			return model;
+		return newModel.fetch().then(function() {
+			DS.inject(resourceName, newModel);	
+			return newModel;
 		}, function() {
 			throw new Error('error fetching model: ' + id);
 		});		
@@ -154,6 +200,7 @@
 	DS.reset = function() {
 		store = {};
 		resources = {};
+		incomplete = {};
 
 		return this;
 	};
