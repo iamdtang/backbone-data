@@ -22,10 +22,6 @@ Grab the minified or unminified file from the _dist_ directory and include it on
 
 This library exposes a global variable called _DS_ (Data Store) and it is also registers itself for AMD (Require.js).
 
-### API Documentation
-
-Until I get documentation up, see the test files for examples. Here is a summary of the current API.
-
 ### Synchronous Methods
 
 * DS.defineResource(resourceDefinition)
@@ -42,6 +38,8 @@ Until I get documentation up, see the test files for examples. Here is a summary
 * DS.findAll(resourceName)
 
 ### API Documentation
+
+Until I get full documentation up, see the test files for examples.
 
 ##### DS.defineResource(resourceDefinition)
 
