@@ -50,18 +50,21 @@ DS.find('person', 3).then(function(person) {
 });
 ```
 
-Sometimes you have incomplete models loaded into the store and you need to get more details about a model only once.
+Sometimes you have incomplete models loaded in the store and you need to retrieve and cache more details about a model. This is particularly useful if you have your server-side dump out json data containing incomplete models. You can load these incomplete models into the store, and if more details about a model are needed, DS.find will request those details once, thus completing the model in the store and any subsequent calls to DS.find for a particular model won't make any HTTP requests. 
 
 ```js
+// Inject a partial model into the store and specify that it is incomplete
 DS.inject('person', { id: 3, name: 'David' }, { incomplete: true });
 // OR
 DS.inject('person', [{ id: 3, name: 'David' }], { incomplete: true });
 
-// Makes AJAX call and loads into the store
+// Makes AJAX call and loads person 3 into the store
 DS.find('person', 3).then(function(person) {
 	DS.get('person', 3) === person;
 
-	// Does not make AJAX call
-	DS.find('person', 3);
+	// Subsequent call for person 3 does not make AJAX call
+	DS.find('person', 3).then(function() {
+		DS.get('person', 3) === person;
+	});
 });
 ```
