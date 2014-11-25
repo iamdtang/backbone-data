@@ -7,10 +7,13 @@ A simple data store for backbone models and collections inspired by Ember Data a
 
 ### Key Features
 
-* Identity mapping of models
+* Provides identity mapping of models
+* Caches models in browser memory
+* Provides a single point of entry for data access through the global variable _DS_
 * Works with existing Backbone models and collections
-* The global variable _DS_ acts as a single point of entry for data access
-* Collection management
+* Manages singletons for each of your primary data collections. Many times you'll need the same collection instance in multiple views. Just ask for this collection from the store and it will give you the same collection instance for a given resource.
+* AMD compatible
+* 702 bytes gzip and minified
 
 ### Install
 
