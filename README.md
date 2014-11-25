@@ -41,8 +41,30 @@ Until I get documentation up, see the test files for examples. Here is a summary
 * DS.find(resourceName, id [, options])
 * DS.findAll(resourceName)
 
+### API Documentation
 
-#### DS.find(resourceName, id [, options])
+##### DS.defineResource(resourceDefinition)
+
+```js
+var Person = Backbone.Model.extend({
+	url: function() {
+		return '/people/' + this.get('id')
+	}
+});
+
+var PersonCollection = Backbone.Collection.extend({
+	model: Person
+});
+
+DS.defineResource({
+	name: 'person',
+	idAttribute: 'id',
+	model: Person,
+	collection: PersonCollection
+});
+```
+
+##### DS.find(resourceName, id [, options])
 
 Fetching a model not in the store:
 

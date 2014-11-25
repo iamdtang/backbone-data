@@ -35,6 +35,7 @@ describe('find()', function() {
 	         '[{ "id": 33, "name": "Gwen", "age": 43 }]']);
 
 		DS.findAll('person').done(function(collection) {
+			expect(collection).to.equal(DS.getAll('person'));
 			expect(DS.getAll('person').toJSON()).to.eql([
 				{ id: 33, name: "Gwen", age: 43 }
 			]);
