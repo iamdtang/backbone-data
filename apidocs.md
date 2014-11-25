@@ -71,6 +71,17 @@ DS.getAll('person') instanceof PersonCollection;
 DS.get('person', 2); // returns a Backbone Person model with an id of 2
 ```
 
+### DS.findAll(resourceName)
+
+Asynchronously fetches all models and puts them into the store. Returns a promise.
+
+```js
+// Makes AJAX call and puts models into the store
+DS.findAll('person').done(function(collection) {
+	DS.getAll('person') === collection;
+});
+```
+
 ### DS.find(resourceName, id [, options])
 
 This method is used to fetch a model if it is not in the data store, or returns a model already in the store wrapped up in a promise.
@@ -114,15 +125,6 @@ DS.find('person', 3).then(function(person) {
 });
 ```
 
-### DS.findAll(resourceName)
 
-Asynchronously fetches all models and puts them into the store. Returns a promise.
-
-```js
-// Makes AJAX call and puts models into the store
-DS.findAll('person').done(function(collection) {
-	DS.getAll('person') === collection;
-});
-```
 
 
