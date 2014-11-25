@@ -69,6 +69,7 @@ DS.getAll('person') instanceof PersonCollection;
 
 ```js
 DS.get('person', 2); // returns a Backbone Person model with an id of 2
+DS.get('person', 2) === DS.get('person', 2);
 ```
 
 ### DS.findAll(resourceName)
