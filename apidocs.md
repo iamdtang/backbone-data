@@ -3,7 +3,9 @@ API Documentation
 
 Until I get full documentation up, see the test files for examples.
 
-##### DS.defineResource(resourceDefinition)
+### DS.defineResource(resourceDefinition)
+
+Create a resource by giving it a Backbone model, collection, a unique name, and the property name that uniquely identifies the models for this resource type (the primary key).
 
 ```js
 var Person = Backbone.Model.extend({
@@ -24,7 +26,9 @@ DS.defineResource({
 });
 ```
 
-##### DS.find(resourceName, id [, options])
+### DS.find(resourceName, id [, options])
+
+This method is used to fetch a model if it is not in the data store, or returns a model already in the store wrapped up in a promise.
 
 Fetching a model not in the store:
 
