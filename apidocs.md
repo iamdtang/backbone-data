@@ -68,3 +68,37 @@ DS.find('person', 3).then(function(person) {
 	});
 });
 ```
+
+### DS.findAll(resourceName)
+
+Asynchronously fetches all models and puts them into the store. Returns a promise.
+
+```js
+// Makes AJAX call and puts models into the store
+DS.findAll('person').done(function(collection) {
+	DS.getAll('person') === collection;
+});
+```
+
+### DS.getAll(resourceName)
+
+Synchronously get all items for a resource in the store and returns the Backbone collection specified for the resource. This method always returns the same collection instance. DS maintains a single collection instance for a given resource.
+
+```js
+Person = Backbone.Model.extend();
+PersonCollection = Backbone.Collection.extend({
+	model: Person
+});
+
+DS.defineResource({
+	name: 'person',
+	idAttribute: 'id',
+	model: Person,
+	collection: PersonCollection
+});
+
+DS.inject('person', people);
+
+DS.getAll('person') === DS.getAll('person');
+DS.getAll('person') instanceof PersonCollection;
+```
