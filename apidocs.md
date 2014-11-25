@@ -65,6 +65,12 @@ DS.getAll('person') === DS.getAll('person');
 DS.getAll('person') instanceof PersonCollection;
 ```
 
+### DS.get(resourceName, id)
+
+```js
+DS.get('person', 2); // returns a Backbone Person model with an id of 2
+```
+
 ### DS.find(resourceName, id [, options])
 
 This method is used to fetch a model if it is not in the data store, or returns a model already in the store wrapped up in a promise.
