@@ -9,7 +9,7 @@ A simple data store for backbone models and collections inspired by Ember Data a
 
 * Identity mapping of models
 * Works with existing Backbone models and collections
-* The single global _DS_ acts as a single point of entry for data access
+* The global variable _DS_ acts as a single point of entry for data access
 * Collection management
 
 ### Install
