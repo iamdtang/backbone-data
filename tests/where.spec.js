@@ -43,4 +43,11 @@ describe('where()', function() {
 			{ id: 3, name: 'Matt', age: 54 }
 		]);
 	});
+
+	it('should return the same models in the store, not create copies of a model', function() {
+		DS.inject('person', people);
+		var filteredPeople = DS.where('person', { age: 54 });
+
+		expect(filteredPeople.at(1)).to.equal(DS.get('person', 3));
+	});
 });

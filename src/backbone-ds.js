@@ -25,6 +25,12 @@
 		}
 	}
 
+	/**
+	 * Determine if a model if incomplete or not
+	 * @param  {String} resourceName 	The name of the resource when defined
+	 * @param  {Number|String} id     The unique ID of the model to find
+	 * @return {Boolean}              True if the model is incomplete, false if complete
+	 */
 	function isIncomplete(resourceName, id) {
 		if (incomplete[resourceName]) {
 			return incomplete[resourceName][id];
@@ -33,6 +39,10 @@
 		return false; 
 	}
 
+	/**
+	 * Define a resource for the store
+	 * @param  {Object} resourceDefinition An object containing idAttribute, name, collection, and model
+	 */
 	DS.defineResource = function(resourceDefinition) {
 		var resourceName;
 		var required = ['idAttribute', 'name', 'collection', 'model'];
@@ -86,6 +96,12 @@
 		return collection.add(data);
 	};
 
+	/**
+	 * Synchronously return a model from the store
+	 * @param  {String} resourceName 	The name of the resource when defined
+	 * @param  {Number|String} id     The unique ID of the model to find
+	 * @return {Backbone.Model}       The Backbone model, or null otherwise
+	 */
 	DS.get = function(resourceName, id) {
 		var model;
 		var collection;
@@ -115,6 +131,10 @@
 		return store[resourceName];
 	};
 
+	/**
+	 * Reset all models for a resource
+	 * @param  {String} resourceName 	The name of the resource when defined
+	 */
 	DS.ejectAll = function(resourceName) {
 		var collection = store[resourceName];
 		
