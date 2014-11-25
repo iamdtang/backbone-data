@@ -59,7 +59,11 @@ DS.defineResource({
 	collection: PersonCollection
 });
 
-DS.inject('person', people);
+DS.inject('person', [
+    { id: 1, name: 'John', age: 54 },
+    { id: 2, name: 'Jane', age: 24 },
+    { id: 3, name: 'Matt', age: 34 }
+]);
 
 DS.getAll('person') === DS.getAll('person');
 DS.getAll('person') instanceof PersonCollection;
