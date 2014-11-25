@@ -26,6 +26,45 @@ DS.defineResource({
 });
 ```
 
+### DS.inject(resourceName, data);
+
+Inject an object or an array of objects into the data store. This is particularly useful for when data is bootstrapped onto the page from the server and you need to put it in the store.
+
+```js
+DS.inject('person', [
+	{ id: 1, name: 'John', age: 54 },
+	{ id: 2, name: 'Jane', age: 24 },
+	{ id: 3, name: 'Matt', age: 34 }
+]);
+
+// OR
+
+DS.inject('person', { id: 4, name: 'Mary', age: 23 });
+```
+
+### DS.getAll(resourceName)
+
+Synchronously get all items for a resource in the store and returns the Backbone collection specified for the resource. This method always returns the same collection instance. DS maintains a single collection instance for a given resource.
+
+```js
+Person = Backbone.Model.extend();
+PersonCollection = Backbone.Collection.extend({
+	model: Person
+});
+
+DS.defineResource({
+	name: 'person',
+	idAttribute: 'id',
+	model: Person,
+	collection: PersonCollection
+});
+
+DS.inject('person', people);
+
+DS.getAll('person') === DS.getAll('person');
+DS.getAll('person') instanceof PersonCollection;
+```
+
 ### DS.find(resourceName, id [, options])
 
 This method is used to fetch a model if it is not in the data store, or returns a model already in the store wrapped up in a promise.
@@ -80,25 +119,4 @@ DS.findAll('person').done(function(collection) {
 });
 ```
 
-### DS.getAll(resourceName)
 
-Synchronously get all items for a resource in the store and returns the Backbone collection specified for the resource. This method always returns the same collection instance. DS maintains a single collection instance for a given resource.
-
-```js
-Person = Backbone.Model.extend();
-PersonCollection = Backbone.Collection.extend({
-	model: Person
-});
-
-DS.defineResource({
-	name: 'person',
-	idAttribute: 'id',
-	model: Person,
-	collection: PersonCollection
-});
-
-DS.inject('person', people);
-
-DS.getAll('person') === DS.getAll('person');
-DS.getAll('person') instanceof PersonCollection;
-```
