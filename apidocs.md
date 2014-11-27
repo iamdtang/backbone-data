@@ -130,6 +130,16 @@ DS.find('person', 3).then(function(person) {
 });
 ```
 
+### DS.create(resourceName, model)
 
+Creating a model and injecting it into the store.
 
+```js
+var person = DS.createInstance('person');
+person.set({ name: 'Allison', age: 23 });
 
+DS.create('person', person).then(function(model) {
+	DS.get('person', 4).toJSON(); // { id: 4, name: 'Allison', age: 23 }
+	DS.get('person', 4) === model;
+});
+```

@@ -214,6 +214,21 @@
 	};
 
 	/**
+	 * Saves and injects model into the store
+	 * @param  {String} resourceName 		The name of the resource when defined
+	 * @param  {Backbone.Model} model   The model to save, probably from DS.createInstance
+	 * @return {Promise}           			A promise that resolves with the model being saved   
+	 */
+	DS.create = function(resourceName, model) {
+		var id = resources[resourceName].idAttribute;
+
+		return model.save().then(function(json) {
+			store[resourceName].add(model);
+			return model;
+		});
+	};
+
+	/**
 	 * Clear out the entire store and all resources
 	 * @return {Object}		Return the DS instance
 	 */
