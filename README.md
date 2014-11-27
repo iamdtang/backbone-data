@@ -1,4 +1,4 @@
-backbone-data
+Backbone Data
 =============
 
 [![Build Status](https://travis-ci.org/skaterdav85/backbone-data.svg)](https://travis-ci.org/skaterdav85/backbone-data)
@@ -7,11 +7,11 @@ A simple data store for backbone models and collections inspired by Ember Data a
 
 ### Key Features
 
-* Provides identity mapping of models
-* Caches models in browser memory
+* Automatic Caching and Identity Mapping - If a model had already been loaded, asking for it a second time will always return the same object instance. This minimizes the number of round-trips to the server.
 * Provides a single point of entry for data access through the global variable _DS_
-* Works with existing Backbone models and collections
-* Manages singletons for each of your primary data collections. Many times you'll need the same collection instance in multiple views. Just ask for this collection from the store and it will give you the same collection instance for a given resource.
+* Works with existing Backbone models and collections.
+* Manages singletons for each collection type. Many times you'll need the same collection instance in multiple views. Just ask for a collection type from the store and it will give you the same collection instance each time.
+* Load incomplete models into the store to be completed and cached later. Imagine you have an array of product objects bootstrapped onto the page from the server. Each product object is incomplete, lacking extra details that may or may not be needed based on user actions. With the data store, you can load these incomplete product models and specify that they are incomplete. Based on the user's actions, if a full product with details is needed, the store will fetch the details once, merge the details into the model thus completing it, and always return that completed cached model.
 * AMD compatible
 * 702 bytes gzip and minified
 
@@ -27,13 +27,13 @@ This library exposes a global variable called _DS_ (Data Store) and it is also r
 
 ### Synchronous Methods Overview
 
-* DS.defineResource(resourceDefinition)
-* DS.get(resourceName, id)
-* DS.getAll(resourceName)
-* DS.where(resourceName, attributes)
-* DS.inject(resourceName, model(s))
-* DS.createInstance(resourceName)
-* DS.ejectAll(resourceName)
+* DS.defineResource(resourceDefinition) - Create a new resource for the store to manage
+* DS.inject(resourceName, model(s)) - Put models into the store
+* DS.get(resourceName, id) - Return a single model from the store, or null otherwise
+* DS.getAll(resourceName) - Return a collection of models from the store
+* DS.where(resourceName, attributes) - Similar to Backbone.Collection's where method but returns a collection
+* DS.createInstance(resourceName) - Create a new Backbone model instance
+* DS.ejectAll(resourceName) - Remove all models from the store for a resource
 
 ### Asynchronous Methods Overview
 
