@@ -224,6 +224,15 @@
 		return filteredCollection;
 	};
 
+	DS.update = function(resourceName, id, properties) {
+		var model = this.get(resourceName, id);
+
+		model.set(properties);
+		return model.save().then(function() {
+			return model;
+		});
+	};
+
 	/**
 	 * Saves and injects model into the store
 	 * @param  {String} resourceName 		The name of the resource when defined

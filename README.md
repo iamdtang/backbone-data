@@ -14,7 +14,7 @@ A simple data store for backbone models and collections inspired by Ember Data a
 * Load incomplete models into the store to be completed and cached later. Imagine you have an array of product objects bootstrapped onto the page from the server. Each product object is incomplete, lacking extra details that may or may not be needed based on user actions. With the data store, you can load these incomplete product models and specify that they are incomplete. Based on the user's actions, if details are needed, the store will fetch the details once, merge the details into the model thus completing it, and always return/resolve that completed cached model.
 * Easily create new filtered collections
 * AMD compatible
-* 750 bytes gzipped and minified
+* 773 bytes gzipped and minified
 
 ### Install
 
@@ -44,7 +44,8 @@ These methods return a promise
 * DS.find(resourceName, id [, options]) - Resolves with the model retrieved and injected into the store
 * DS.findAll(resourceName) - Resolves with the collection instance managed by the store for _resourceName_
 * DS.create(resourceName, model) - Resolves with the newly created and injected model
-* DS.destroy(resourceName, id)
+* DS.destroy(resourceName, id) - Destroy a model in the store
+* DS.update(resourceName, id, properties) - Update a model in the store and resolves with model
 
 [API Documentation](apidocs.md)
 

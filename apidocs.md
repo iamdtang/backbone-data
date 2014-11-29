@@ -155,6 +155,19 @@ DS.destroy('person', 3).then(function() {
 });
 ```
 
+### DS.update(resourceName, id, properties)
+
+Update a model in the store. Delegates to model.save().
+
+```js
+DS.update('person', 3, {
+	name: 'Mathew'
+}).then(function(model) {
+	model === DS.get('person', 3); // true
+	// Model in store with primary key of 3 has updated its name to 'Mathew'
+});
+```
+
 ### DS.filter(resourceName, predicate)
 
 Proxies to Backbone's collection.filter() but returns a new collection instance of the collection type specified in the resource definition.
