@@ -155,4 +155,16 @@ DS.destroy('person', 3).then(function() {
 });
 ```
 
+### DS.filter(resourceName, predicate)
+
+Proxies to Backbone's collection.filter() but returns a new collection instance of the collection type specified in the resource definition.
+
+```js
+var filteredPeople = DS.filter('person', function(model) {
+	return model.get('age') === 54;
+});
+
+filteredPeople instanceof PersonCollection; // true
+filteredPeople.toJSON(); // [{ id: 1, name: 'John', age: 54 }, { id: 3, name: 'Matt', age: 54 }]
+```
 

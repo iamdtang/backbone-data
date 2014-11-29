@@ -213,6 +213,17 @@
 		return filteredCollection;
 	};
 
+	DS.filter = function(resourceName, predicate) {
+		var collection = store[resourceName];
+		var Collection = resources[resourceName].collection;
+		var filteredCollection = new Collection();
+
+		var models = collection.filter(predicate);
+		filteredCollection.add(models);
+
+		return filteredCollection;
+	};
+
 	/**
 	 * Saves and injects model into the store
 	 * @param  {String} resourceName 		The name of the resource when defined
