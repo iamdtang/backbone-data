@@ -13,7 +13,7 @@ A simple data store for backbone models and collections inspired by Ember Data a
 * Manages singletons for each collection type. Many times you'll need the same collection instance in multiple views. Just ask for a collection type from the store and it will give you the same collection instance each time.
 * Load incomplete models into the store to be completed and cached later. Imagine you have an array of product objects bootstrapped onto the page from the server. Each product object is incomplete, lacking extra details that may or may not be needed based on user actions. With the data store, you can load these incomplete product models and specify that they are incomplete. Based on the user's actions, if a full product with details is needed, the store will fetch the details once, merge the details into the model thus completing it, and always return that completed cached model.
 * AMD compatible
-* 721 bytes gzip and minified
+* 737 bytes gzip and minified
 
 ### Install
 
@@ -40,6 +40,7 @@ This library exposes a global variable called _DS_ (Data Store) and it is also r
 * DS.find(resourceName, id [, options])
 * DS.findAll(resourceName)
 * DS.create(resourceName, model)
+* DS.destroy(resourceName, id)
 
 [API Documentation](apidocs.md)
 

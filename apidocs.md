@@ -143,3 +143,16 @@ DS.create('person', person).then(function(model) {
 	DS.get('person', 4) === model;
 });
 ```
+
+### DS.destroy(resourceName, id)
+
+Destroy a model from the store
+
+```js
+// Makes a DELETE request by calling model.destroy()
+DS.destroy('person', 3).then(function() {
+	DS.get('person', 3); // null
+});
+```
+
+

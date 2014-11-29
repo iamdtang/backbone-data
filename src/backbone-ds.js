@@ -228,6 +228,12 @@
 		});
 	};
 
+	DS.destroy = function(resourceName, id) {
+		var model = this.get(resourceName, id);
+
+		return model.destroy();
+	};
+
 	/**
 	 * Clear out the entire store and all resources
 	 * @return {Object}		Return the DS instance
