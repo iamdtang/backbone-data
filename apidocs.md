@@ -91,7 +91,7 @@ DS.findAll('person').done(function(collection) {
 
 Fetch a model if it is not in the data store, or return a model already in the store wrapped up in a resolved promise.
 
-Fetching a model not in the store:
+##### Fetching a model not in the store:
 
 ```js
 // makes AJAX request using model's fetch() method
@@ -100,7 +100,7 @@ DS.find('person', 3).then(function(person) {
 });
 ```
 
-Fetching a model that is already in the store
+##### Fetching a model that is already in the store
 
 ```js
 DS.inject('person', { id: 3, name: 'David' });
