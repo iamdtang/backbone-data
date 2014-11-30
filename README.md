@@ -24,6 +24,18 @@ Grab the minified or unminified file from the _dist_ directory and include it on
 <script src="dist/backbone-ds.min.js"></script>
 ```
 
+Or install through Bower
+
+```
+bower install backbone-data
+```
+
+Or install through NPM
+
+```
+npm install backbone-data
+```
+
 This library exposes a global variable called _DS_ (Data Store) and it is also registers itself for AMD (Require.js).
 
 ### Synchronous Methods Overview
