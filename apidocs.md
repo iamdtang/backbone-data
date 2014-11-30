@@ -5,7 +5,7 @@ Until I get full documentation up, see the test files for examples.
 
 ### DS.defineResource(resourceDefinition)
 
-Create a resource by giving it a Backbone model, collection, a unique name, and the property name that uniquely identifies the models for this resource type (the primary key).
+Create a resource by specifying a Backbone model, collection, a unique name, and the property name that uniquely identifies the models for this resource type (the primary key). Creating a resource is the first step to storing your data in the store.
 
 ```js
 var Person = Backbone.Model.extend({
@@ -28,7 +28,7 @@ DS.defineResource({
 
 ### DS.inject(resourceName, data);
 
-Inject an object or an array of objects into the data store. This is particularly useful for when data is bootstrapped onto the page from the server and you need to put it in the store.
+Inject an object or an array of objects into the data store. This is particularly useful for when data is bootstrapped onto the page from the server and you need to inject it in the store.
 
 ```js
 DS.inject('person', [
@@ -71,6 +71,8 @@ DS.getAll('person') instanceof PersonCollection;
 
 ### DS.get(resourceName, id)
 
+Synchronously get a single model from the store for a resource.
+
 ```js
 DS.get('person', 2); // returns a Backbone Person model with an id of 2
 DS.get('person', 2) === DS.get('person', 2);
@@ -78,18 +80,18 @@ DS.get('person', 2) === DS.get('person', 2);
 
 ### DS.findAll(resourceName)
 
-Asynchronously fetches all models and puts them into the store. Returns a promise.
+Asynchronously fetch all models and inject them into the store. Returns a promise.
 
 ```js
 // Makes AJAX call and puts models into the store
 DS.findAll('person').done(function(collection) {
-	DS.getAll('person') === collection;
+	DS.getAll('person') === collection; // true
 });
 ```
 
 ### DS.find(resourceName, id [, options])
 
-This method is used to fetch a model if it is not in the data store, or returns a model already in the store wrapped up in a promise.
+Fetch a model if it is not in the data store, or return a model already in the store wrapped up in a resolved promise.
 
 Fetching a model not in the store:
 
@@ -140,13 +142,13 @@ person.set({ name: 'Allison', age: 23 });
 
 DS.create('person', person).then(function(model) {
 	DS.get('person', 4).toJSON(); // { id: 4, name: 'Allison', age: 23 }
-	DS.get('person', 4) === model;
+	DS.get('person', 4) === model; // true
 });
 ```
 
 ### DS.destroy(resourceName, id)
 
-Destroy a model from the store
+Destroy a model in the store
 
 ```js
 // Makes a DELETE request by calling model.destroy()
@@ -168,6 +170,8 @@ DS.update('person', 3, {
 });
 ```
 
+Alternatively, you could just find the model using _DS.get()_ and update and save it as you would normally when working with Backbone models. This method merely calls model.set() and model.save() behind the scenes.
+
 ### DS.filter(resourceName, predicate)
 
 Proxies to Backbone's collection.filter() but returns a new collection instance of the collection type specified in the resource definition.
@@ -179,5 +183,14 @@ var filteredPeople = DS.filter('person', function(model) {
 
 filteredPeople instanceof PersonCollection; // true
 filteredPeople.toJSON(); // [{ id: 1, name: 'John', age: 54 }, { id: 3, name: 'Matt', age: 54 }]
+```
+
+### DS.where(resourceName, attributes)
+
+Filter models in the store by attributes. Delegates to collection.where() but returns a new collection instance of the proper collection type instead of an array.
+
+```js
+var filteredPeople = DS.where('person', { age: 54 });
+filteredPeople instanceof PersonCollection; // true
 ```
 
