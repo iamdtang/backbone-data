@@ -18,7 +18,7 @@ var PersonCollection = Backbone.Collection.extend({
 
 DS.defineResource({
 	name: 'person',
-	idAttribute: 'id',
+	idAttribute: 'id', // 'id' is the default
 	model: Person,
 	collection: PersonCollection
 });
