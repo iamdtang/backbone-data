@@ -1,8 +1,6 @@
 API Documentation
 =================
 
-Until I get full documentation up, see the test files for examples.
-
 ### DS.defineResource(resourceDefinition)
 
 Create a resource by specifying a Backbone model, collection, a unique name, and the property name that uniquely identifies the models for this resource type (the primary key). Creating a resource is the first step to storing your data in the store.
