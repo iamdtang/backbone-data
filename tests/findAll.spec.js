@@ -48,4 +48,31 @@ describe('find()', function() {
 		server.respond();
 		server.restore();
 	});
+
+	it('should allow you to specify if models fetched are incomplete', function(done) {
+		var spy = sinon.spy(Backbone.Model.prototype, 'fetch');
+		var server = sinon.fakeServer.create();
+
+		server.respondWith("GET", "/people",
+	        [200, { "Content-Type": "application/json" },
+	         '[{ "id": 33, "name": "Gwen", "age": 43 }]']);
+
+		server.respondWith("GET", "/people/33",
+	        [200, { "Content-Type": "application/json" },
+	         '{ "id": 33, "name": "Gwen", "age": 43, "gender": "F"  }']);
+
+		DS.findAll('person', { incomplete: true }).done(function(collection) {
+			DS.find('person', 33).done(function(model) {
+				expect(model.toJSON()).to.eql({ "id": 33, "name": "Gwen", "age": 43, "gender": "F" });
+				DS.find('person', 33).done(function(model) {
+					expect(spy.callCount).to.equal(1);
+					done();
+				});
+			});
+		});
+
+		server.respond();
+		server.respond();
+		server.restore();
+	});
 });

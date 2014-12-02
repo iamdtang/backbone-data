@@ -186,11 +186,11 @@
 	 * This does reset the collection for resourceName.
 	 * Still debating on if this is what it should do...
 	 */
-	DS.findAll = function(resourceName) {
+	DS.findAll = function(resourceName, options) {
 		var collection = store[resourceName];
 
 		return collection.fetch().then(function(models) {
-			DS.inject(resourceName, models);
+			DS.inject(resourceName, models, options);
 			return collection;
 		}, function() {
 			throw new Error('error fetching collection: ' + resourceName);

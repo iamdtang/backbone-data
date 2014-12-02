@@ -76,7 +76,7 @@ DS.get('person', 2); // returns a Backbone Person model with an id of 2
 DS.get('person', 2) === DS.get('person', 2);
 ```
 
-### DS.findAll(resourceName)
+### DS.findAll(resourceName [, options])
 
 Asynchronously fetch all models and inject them into the store. Returns a promise.
 
@@ -84,6 +84,19 @@ Asynchronously fetch all models and inject them into the store. Returns a promis
 // Makes AJAX call and puts models into the store
 DS.findAll('person').done(function(collection) {
 	DS.getAll('person') === collection; // true
+});
+``` 
+
+Sometimes you need to load incomplete models in the store and have details for each of those models fetched and cached later based on user actions. You can load these incomplete models into the store, and if more details about a model are needed, _DS.find()_ will request those details once, thus completing the model in the store, and any subsequent calls to DS.find for a particular model won't make any HTTP requests. 
+
+```js
+// Makes AJAX request to a URL like /people
+DS.findAll('person', { incomplete: true }).done(function(collection) {
+	// Makes AJAX request to a URL like /people/33 to get all person 33 details and caches details
+	DS.find('person', 33).done(function(model) {
+		// Does NOT make AJAX request. Pulls person 33 from cache
+		DS.find('person', 33).done(function(model) {});
+	});
 });
 ```
 
@@ -111,7 +124,7 @@ DS.find('person', 3).then(function(person) {
 });
 ```
 
-Sometimes you have incomplete models loaded in the store and you need to retrieve and cache more details about a model. This is particularly useful if you have your server-side dump out json data containing incomplete models. You can load these incomplete models into the store, and if more details about a model are needed, DS.find will request those details once, thus completing the model in the store and any subsequent calls to DS.find for a particular model won't make any HTTP requests. 
+Sometimes you need to load incomplete models in the store and have details for each of those models fetched and cached later based on user actions. You can load these incomplete models into the store, and if more details about a model are needed, _DS.find()_ will request those details once, thus completing the model in the store, and any subsequent calls to DS.find for a particular model won't make any HTTP requests. 
 
 ```js
 // Inject a partial model into the store and specify that it is incomplete

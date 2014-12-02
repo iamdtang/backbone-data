@@ -11,10 +11,10 @@ A simple data store for backbone models and collections inspired by Ember Data a
 * Provides a single point of entry for data access through the global variable _DS_
 * Works with existing Backbone models and collections.
 * Manages singletons for each collection type. Many times you'll need the same collection instance in multiple views. Just ask for a collection type from the store (_DS.getAll('person')_, _DS.findAll('person')_) and it will return/resolve with the same collection instance each time.
-* Load incomplete models into the store to be completed and cached later. Imagine you have an array of product objects bootstrapped onto the page from the server. Each product object is incomplete, lacking extra details that may or may not be needed based on user actions. With the data store, you can load these incomplete product models and specify that they are incomplete. Based on the user's actions, if details are needed, the store will fetch the details once, merge the details into the model thus completing it, and always return/resolve that completed cached model.
+* Load models into the store specified as incomplete (lacking details). Extra details about the model can be fetched and cached on subsequent requests. Particularly useful if your models have a lot of data that might not be needed.
 * Easily create new filtered collections
 * AMD compatible
-* 773 bytes gzipped and minified
+* 777 bytes gzipped and minified
 
 ### Install
 
@@ -54,7 +54,7 @@ This library exposes a global variable called _DS_ (Data Store) and it is also r
 These methods return a promise
 
 * DS.find(resourceName, id [, options]) - Resolves with the model retrieved and injected into the store
-* DS.findAll(resourceName) - Resolves with the collection instance managed by the store for _resourceName_
+* DS.findAll(resourceName [, options]) - Resolves with the collection instance managed by the store for _resourceName_
 * DS.create(resourceName, model) - Resolves with the newly created and injected model
 * DS.destroy(resourceName, id) - Destroy a model in the store
 * DS.update(resourceName, id, properties) - Update a model in the store and resolves with model
