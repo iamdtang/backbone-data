@@ -14,7 +14,7 @@ A simple data store for backbone models and collections inspired by Ember Data a
 * Load models into the store specified as incomplete (lacking details). Extra details about the model can be fetched and cached on subsequent requests. Particularly useful if your models have a lot of data that might not be needed.
 * Easily create new filtered collections
 * AMD compatible
-* 777 bytes gzipped and minified
+* 802 bytes gzipped and minified
 
 ### Install
 

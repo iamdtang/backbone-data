@@ -75,4 +75,22 @@ describe('find()', function() {
 		server.respond();
 		server.restore();
 	});
+
+	it('should pull from cache if fetch() has already been called', function(done) {
+		var spy = sinon.spy(Backbone.Collection.prototype, 'fetch');
+		var server = sinon.fakeServer.create();
+		server.respondWith("GET", "/people",
+	        [200, { "Content-Type": "application/json" },
+	         '[{ "id": 33, "name": "Gwen", "age": 43 }]']);
+
+		DS.findAll('person').done(function(collection) {
+			DS.findAll('person').done(function(collection) {
+				expect(spy.callCount).to.equal(1);
+				done();
+			});
+		});
+
+		server.respond();
+		server.restore();
+	});
 });

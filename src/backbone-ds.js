@@ -3,6 +3,7 @@
 	var resources = {};
 	var store = {};
 	var incomplete = {};
+	var collectionStatus = {};
 	
 	/**
 	 * @param  {String} resourceName 	The name of the resource when defined
@@ -182,15 +183,21 @@
 	};
 
 	/**
-	 * Request a collection from the server and inject models in store.
+	 * Request a collection from the server once and inject models in store.
 	 * This does reset the collection for resourceName.
-	 * Still debating on if this is what it should do...
 	 */
 	DS.findAll = function(resourceName, options) {
 		var collection = store[resourceName];
+		var dfd = $.Deferred();
+
+		if (collectionStatus.hasOwnProperty(resourceName)) {
+			dfd.resolve(collection);
+			return dfd.promise();
+		}
 
 		return collection.fetch().then(function(models) {
 			DS.inject(resourceName, models, options);
+			collectionStatus[resourceName] = 'completed';
 			return collection;
 		}, function() {
 			throw new Error('error fetching collection: ' + resourceName);
@@ -262,6 +269,7 @@
 		store = {};
 		resources = {};
 		incomplete = {};
+		collectionStatus = {};
 
 		return this;
 	};

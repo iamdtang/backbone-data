@@ -78,7 +78,7 @@ DS.get('person', 2) === DS.get('person', 2);
 
 ### DS.findAll(resourceName [, options])
 
-Asynchronously fetch all models and inject them into the store. Returns a promise.
+Asynchronously fetch all models once and inject them into the store. Returns a promise. Subsequent requests will just resolve with what is in the cache.
 
 ```js
 // Makes AJAX call and puts models into the store
