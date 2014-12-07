@@ -73,6 +73,8 @@ karma start
 
 ### Build
 
+This will create the distribution files in the _dist_ folder
+
 ```
 gulp
 ```
