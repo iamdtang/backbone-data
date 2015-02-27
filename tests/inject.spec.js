@@ -53,4 +53,23 @@ describe('inject()', function() {
 		expect(models[1].toJSON()).to.eql({ id: 2, name: 'Jane', age: 24 });
 		expect(models[2].toJSON()).to.eql({ id: 3, name: 'Matt', age: 34 });
 	});
+
+	it('should allow a single model to be injected', function() {
+		var UserProfile = Backbone.Model.extend();
+
+		DS.defineResource({
+			name: 'profile',
+			model: UserProfile
+		});
+
+		var userProfile = DS.inject('profile', {
+			first: 'David',
+			last: 'Tang'
+		});
+
+		expect(userProfile.toJSON()).to.eql({
+			first: 'David',
+			last: 'Tang'
+		});
+	});
 });

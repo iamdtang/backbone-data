@@ -36,4 +36,45 @@ describe('get()', function() {
 	it('should return null if the object doesnt exist in the store', function() {
 		expect(DS.get('person', 999)).to.be.null;
 	});
+
+	it('should return a single model without the PK if the resource is registered without a collection', function() {
+		var UserProfile = Backbone.Model.extend();
+
+		DS.defineResource({
+			name: 'profile',
+			model: UserProfile
+		});
+
+		DS.inject('profile', {
+			first: 'David',
+			last: 'Tang'
+		});
+
+		expect(DS.get('profile').toJSON()).to.eql({
+			first: 'David',
+			last: 'Tang'
+		});
+	});
+
+	it('should return the same model resource every time', function() {
+		var UserProfile = Backbone.Model.extend();
+
+		DS.defineResource({
+			name: 'profile',
+			model: UserProfile
+		});
+
+		expect(DS.get('profile')).to.equal(DS.get('profile'));
+	});
+
+	it('should return an object', function() {
+		var UserProfile = Backbone.Model.extend();
+
+		DS.defineResource({
+			name: 'profile',
+			model: UserProfile
+		});
+
+		expect(typeof DS.get('profile')).to.equal('object');
+	});
 });

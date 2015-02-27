@@ -9,16 +9,6 @@ describe('defineResource()', function() {
 		});
 	});
 
-	it('should throw an error if collection is not provided', function() {
-		expect(function() {
-			DS.defineResource({
-				name: 'person',
-				idAttribute: 'id',
-				model: Person
-			});
-		}).to.throw(Error);
-	});
-
 	it('should throw an error if model is not provided', function() {
 		expect(function() {
 			DS.defineResource({
@@ -54,17 +44,6 @@ describe('defineResource()', function() {
 			DS.defineResource({
 				idAttribute: 'id',
 				name: '',
-				collection: Backbone.Collection,
-				model: Backbone.Model
-			});
-		}).to.throw(Error);
-	});
-
-	it('should throw an error if idAttribute is not provided', function() {
-		expect(function() {
-			DS.defineResource({
-				name: 'person',
-				idAttribute: '',
 				collection: Backbone.Collection,
 				model: Backbone.Model
 			});
