@@ -1,4 +1,4 @@
-describe('find()', function() {
+describe('defineResource()', function() {
 	var Person;
 
 	beforeEach(function() {
@@ -9,7 +9,7 @@ describe('find()', function() {
 		});
 	});
 
-	it('should throw an error if colletion is not provided', function() {
+	it('should throw an error if collection is not provided', function() {
 		expect(function() {
 			DS.defineResource({
 				name: 'person',

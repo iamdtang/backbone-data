@@ -1,4 +1,4 @@
-describe('find()', function() {
+describe('findAll()', function() {
 	var people;
 	var Person;
 	var PersonCollection;
