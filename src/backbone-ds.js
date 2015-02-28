@@ -169,20 +169,27 @@
 		}
 	};
 
-	/** 
-	 * Find a model from the store. If not in store, fetches it asynchronously
-	 * and puts the model in the store
-	 * 
-	 * @param  {String} resourceName The name of the resource when defined
-	 * @param  {Number|String} id    The unique ID of the model to find
-	 * @return {promise}             Returns a jQuery promise
-	 */
-	DS.find = function(resourceName, id) {
+	function findModelResource(resourceName) {
+		var dfd = new $.Deferred();
+		var model = this.get(resourceName);
+
+		model.fetch().then(function() {
+			dfd.resolve(model);
+		});
+
+		return dfd.promise();
+	}
+
+	function findCollectionResource(resourceName, id) {
 		var attr = {};
-		var idAttribute = resources[resourceName].idAttribute;
-		var model = this.get(resourceName, id);
+		var idAttribute;
 		var newModel;
 		var dfd = $.Deferred();
+		var model;
+
+		model = this.get(resourceName, id);
+		idAttribute = resources[resourceName].idAttribute;
+
 
 		if (model) {			
 			if (isIncomplete(resourceName, id)) {
@@ -204,7 +211,23 @@
 			return newModel;
 		}, function() {
 			throw new Error('error fetching model: ' + id);
-		});		
+		});
+	}
+
+	/** 
+	 * Find a model from the store. If not in store, fetches it asynchronously
+	 * and puts the model in the store
+	 * 
+	 * @param  {String} resourceName The name of the resource when defined
+	 * @param  {Number|String} id    The unique ID of the model to find
+	 * @return {promise}             Returns a jQuery promise
+	 */
+	DS.find = function(resourceName, id) {
+		if (isModelResource(resourceName)) {
+			return findModelResource.call(this, resourceName);
+		} else {
+			return findCollectionResource.call(this, resourceName, id);
+		}
 	};
 
 	/**

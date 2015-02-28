@@ -3,6 +3,8 @@ API Documentation
 
 ### DS.defineResource(resourceDefinition)
 
+#### Collection Resource
+
 Create a resource by specifying a Backbone model, collection, a unique name, and the property name that uniquely identifies the models for this resource type (the primary key). Creating a resource is the first step to storing your data in the store.
 
 ```js
@@ -21,6 +23,17 @@ DS.defineResource({
 	idAttribute: 'id', // 'id' is the default
 	model: Person,
 	collection: PersonCollection
+});
+```
+
+#### Model Resource
+
+```js
+var UserProfile = Backbone.Model.extend();
+
+DS.defineResource({
+	name: 'profile',
+	model: UserProfile
 });
 ```
 
@@ -71,9 +84,17 @@ DS.getAll('person') instanceof PersonCollection;
 
 Synchronously get a single model from the store for a resource.
 
+#### Collection Resources
+
 ```js
 DS.get('person', 2); // returns a Backbone Person model with an id of 2
 DS.get('person', 2) === DS.get('person', 2);
+```
+
+#### Model Resources
+
+```js
+DS.get('profile'); // returns the 'profile' model resource
 ```
 
 ### DS.findAll(resourceName [, options])
@@ -103,6 +124,8 @@ DS.findAll('person', { incomplete: true }).done(function(collection) {
 ### DS.find(resourceName, id [, options])
 
 Fetch a model if it is not in the data store, or return a model already in the store wrapped up in a resolved promise.
+
+#### Collection Resources
 
 ##### Fetching a model not in the store:
 
@@ -141,6 +164,12 @@ DS.find('person', 3).then(function(person) {
 		DS.get('person', 3) === person;
 	});
 });
+```
+
+#### Model Resources
+
+```js
+DS.find('profile').then(function(profile) {});
 ```
 
 ### DS.create(resourceName, model)

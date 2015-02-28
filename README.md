@@ -14,7 +14,7 @@ A simple data store for backbone models and collections inspired by Ember Data a
 * Load models into the store specified as incomplete (lacking details). Extra details about the model can be fetched and cached on subsequent requests. Particularly useful if your models have a lot of data that might not be needed.
 * Easily create new filtered collections
 * AMD compatible
-* 802 bytes gzipped and minified
+* 933 bytes gzipped and minified
 
 ### Install
 
@@ -38,7 +38,9 @@ npm install backbone-data
 
 This library exposes a global variable called _DS_ (Data Store) and it is also registers itself for AMD (Require.js).
 
-### Synchronous Methods Overview
+## Collection Resources
+
+### Synchronous Methods
 
 * DS.defineResource(resourceDefinition) - Create a new resource for the store to manage
 * DS.inject(resourceName, model(s)) - Put models into the store
@@ -49,7 +51,7 @@ This library exposes a global variable called _DS_ (Data Store) and it is also r
 * DS.createInstance(resourceName) - Create a new Backbone model instance
 * DS.ejectAll(resourceName) - Remove all models from the store for a resource
 
-### Asynchronous Methods Overview
+### Asynchronous Methods
 
 These methods return a promise
 
@@ -58,6 +60,18 @@ These methods return a promise
 * DS.create(resourceName, model) - Resolves with the newly created and injected model
 * DS.destroy(resourceName, id) - Destroy a model in the store
 * DS.update(resourceName, id, properties) - Update a model in the store and resolves with model
+
+## Model Resources
+
+### Synchronous Methods
+
+* DS.defineResource(resourceDefinition)
+* DS.inject(resourceName, model)
+* DS.get(resourceName)
+
+### Asynchronous Methods
+
+* DS.find(resourceName) - Makes a request and resolves with the model
 
 [API Documentation](apidocs.md)
 
