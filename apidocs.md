@@ -44,7 +44,7 @@ These methods return a promise
 
 #### Collection Resource
 
-Create a resource by specifying a Backbone model, collection, a unique name, and the property name that uniquely identifies the models for this resource type (the primary key). Creating a resource is the first step to storing your data in the store.
+Create a collection resource by specifying a Backbone model, collection, a unique name, and the property name that uniquely identifies the models for this resource type (the primary key).
 
 ```js
 var Person = Backbone.Model.extend({
@@ -66,6 +66,8 @@ DS.defineResource({
 ```
 
 #### Model Resource
+
+Create a model resource by specifying a Backbone model and a unique name.
 
 ```js
 var UserProfile = Backbone.Model.extend();
@@ -160,7 +162,7 @@ DS.findAll('person', { incomplete: true }).done(function(collection) {
 });
 ```
 
-## DS.find(resourceName, id [, options])
+## DS.find(resourceName [, id, options])
 
 Fetch a model if it is not in the data store, or return a model already in the store wrapped up in a resolved promise.
 
@@ -208,7 +210,9 @@ DS.find('person', 3).then(function(person) {
 #### Model Resources
 
 ```js
-DS.find('profile').then(function(profile) {});
+DS.find('profile').then(function(profile) {
+	// Loads profile model and caches it for subsequent requests
+});
 ```
 
 ### DS.create(resourceName, model)
