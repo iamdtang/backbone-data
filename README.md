@@ -5,7 +5,7 @@ Backbone Data
 
 A simple data store for backbone models and collections inspired by Ember Data and angular-data.
 
-### Key Features
+## Key Features
 
 * Automatic Caching and Identity Mapping - If a model had already been loaded, asking for it a second time will always return the same object instance. This minimizes the number of round-trips to the server.
 * Provides a single point of entry for data access through the global variable _DS_
@@ -18,7 +18,9 @@ A simple data store for backbone models and collections inspired by Ember Data a
 * AMD compatible
 * 933 bytes gzipped and minified
 
-### Install
+[API Documentation and Examples](apidocs.md)
+
+## Install
 
 Grab the minified or unminified file from the _dist_ directory and include it on your page.
 
@@ -40,9 +42,11 @@ npm install backbone-data
 
 This library exposes a global variable called _DS_ (Data Store) and it is also registers itself for AMD (Require.js).
 
-## Collection Resources
+## API Overview
 
-### Synchronous Methods
+### Collection Resources
+
+#### Synchronous Methods
 
 * DS.defineResource(resourceDefinition) - Create a new resource for the store to manage
 * DS.inject(resourceName, model(s)) - Put models into the store
@@ -53,7 +57,7 @@ This library exposes a global variable called _DS_ (Data Store) and it is also r
 * DS.createInstance(resourceName) - Create a new Backbone model instance
 * DS.ejectAll(resourceName) - Remove all models from the store for a resource
 
-### Asynchronous Methods
+#### Asynchronous Methods
 
 These methods return a promise
 
@@ -63,23 +67,21 @@ These methods return a promise
 * DS.destroy(resourceName, id) - Destroy a model in the store
 * DS.update(resourceName, id, properties) - Update a model in the store and resolves with model
 
-## Model Resources
+### Model Resources
 
 This is useful if you want to manage a single model in your application, like a user profile that is tied to the user's session.
 
-### Synchronous Methods
+#### Synchronous Methods
 
 * DS.defineResource(resourceDefinition)
 * DS.inject(resourceName, model)
 * DS.get(resourceName)
 
-### Asynchronous Methods
+#### Asynchronous Methods
 
 * DS.find(resourceName) - Makes a request for a model only once and resolves with the model
 
-[API Documentation](apidocs.md)
-
-### Tests
+## Tests
 
 Tests are using Mocha, Chai, and Sinon. Run tests with karma.
 
@@ -89,7 +91,7 @@ npm install
 karma start
 ```
 
-### Build
+## Build
 
 This will create the distribution files in the _dist_ folder
 
