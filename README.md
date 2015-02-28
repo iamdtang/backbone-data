@@ -3,15 +3,15 @@ Backbone Data
 
 [![Build Status](https://travis-ci.org/skaterdav85/backbone-data.svg)](https://travis-ci.org/skaterdav85/backbone-data)
 
-A simple data store for backbone models and collections inspired by Ember Data and angular-data.
+A simple data store for Backbone models and collections inspired by Ember Data and angular-data.
 
 ## Key Features
 
-* Automatic Caching and Identity Mapping - If a model had already been loaded, asking for it a second time will always return the same object instance. This minimizes the number of round-trips to the server.
-* Provides a single point of entry for data access through the global variable _DS_
-* Works with existing Backbone models and collections.
+* Automatic Caching and Identity Mapping
+	* If a model had already been loaded, asking for it a second time will not make any network requests. This minimizes the number of round-trips to the server.
+* Provides a single point of entry for data access through the global variable _DS_ and works with existing Backbone models and collections.
 * Manages singletons for models and each collection type. 
-	* Many times you'll need the same collection instance in multiple views. Just ask for a collection type from the store (`DS.getAll('person')`, `DS.findAll('person')`) and it will return or resolve with the same collection instance each time.
+	* Many times you'll need the same collection instance in multiple views. Just ask the store for the resource (`DS.getAll('person')`, `DS.findAll('person')`) and it will return or resolve with the same collection instance each time.
 	* Maybe you have a single model instance in your application, like a `UserProfile` model. The data store can also manage it as a singleton so that you get the same `UserProfile` instance every time.
 * Load models into the store specified as incomplete (lacking details). Extra details about the model can be fetched and cached on subsequent requests. Particularly useful if your models have a lot of data that might not be needed.
 * Easily create new filtered collections
@@ -43,6 +43,8 @@ npm install backbone-data
 This library exposes a global variable called _DS_ (Data Store) and it is also registers itself for AMD (Require.js).
 
 ## API Overview
+
+A resource is the data and meta data associated with a particular RESTful resource. In this library, a resource is broken out into two types: collection resources and model resources. A collection resource is when there can be 1 to many items for a resource. For example, an application could have 1 to many orders. A model resource on the other hand is when you only ever have one instance of something, like a `UserProfile` model tied to the logged-in user's session.
 
 ### Collection Resources
 

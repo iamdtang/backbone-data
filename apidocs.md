@@ -1,7 +1,7 @@
 API Documentation
 =================
 
-### DS.defineResource(resourceDefinition)
+## DS.defineResource(resourceDefinition)
 
 #### Collection Resource
 
@@ -37,7 +37,7 @@ DS.defineResource({
 });
 ```
 
-### DS.inject(resourceName, data);
+## DS.inject(resourceName, data);
 
 Inject an object or an array of objects into the data store. This is particularly useful for when data is bootstrapped onto the page from the server and you need to inject it in the store.
 
@@ -53,7 +53,7 @@ DS.inject('person', [
 DS.inject('person', { id: 4, name: 'Mary', age: 23 });
 ```
 
-### DS.getAll(resourceName)
+## DS.getAll(resourceName)
 
 Synchronously get all items for a resource in the store and returns the Backbone collection specified for the resource. This method always returns the same collection instance. DS maintains a single collection instance for a given resource.
 
@@ -80,7 +80,7 @@ DS.getAll('person') === DS.getAll('person');
 DS.getAll('person') instanceof PersonCollection;
 ```
 
-### DS.get(resourceName, id)
+## DS.get(resourceName, id)
 
 Synchronously get a single model from the store for a resource.
 
@@ -97,7 +97,7 @@ DS.get('person', 2) === DS.get('person', 2);
 DS.get('profile'); // returns the 'profile' model resource
 ```
 
-### DS.findAll(resourceName [, options])
+## DS.findAll(resourceName [, options])
 
 Asynchronously fetch all models once and inject them into the store. Returns a promise. Subsequent requests will just resolve with what is in the cache.
 
@@ -121,7 +121,7 @@ DS.findAll('person', { incomplete: true }).done(function(collection) {
 });
 ```
 
-### DS.find(resourceName, id [, options])
+## DS.find(resourceName, id [, options])
 
 Fetch a model if it is not in the data store, or return a model already in the store wrapped up in a resolved promise.
 
@@ -186,7 +186,7 @@ DS.create('person', person).then(function(model) {
 });
 ```
 
-### DS.destroy(resourceName, id)
+## DS.destroy(resourceName, id)
 
 Destroy a model in the store
 
@@ -197,7 +197,7 @@ DS.destroy('person', 3).then(function() {
 });
 ```
 
-### DS.update(resourceName, id, properties)
+## DS.update(resourceName, id, properties)
 
 Update a model in the store. Delegates to model.save().
 
@@ -212,7 +212,7 @@ DS.update('person', 3, {
 
 Alternatively, you could just find the model using _DS.get()_ and update and save it as you would normally when working with Backbone models. This method merely calls model.set() and model.save() behind the scenes.
 
-### DS.filter(resourceName, predicate)
+## DS.filter(resourceName, predicate)
 
 Proxies to Backbone's collection.filter() but returns a new collection instance of the collection type specified in the resource definition.
 
@@ -225,7 +225,7 @@ filteredPeople instanceof PersonCollection; // true
 filteredPeople.toJSON(); // [{ id: 1, name: 'John', age: 54 }, { id: 3, name: 'Matt', age: 54 }]
 ```
 
-### DS.where(resourceName, attributes)
+## DS.where(resourceName, attributes)
 
 Filter models in the store by attributes. Delegates to collection.where() but returns a new collection instance of the proper collection type instead of an array.
 
