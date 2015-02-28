@@ -7,7 +7,7 @@ A resource is the data and meta data associated with a particular RESTful resour
 
 ### Collection Resources
 
-#### Synchronous Methods
+##### Synchronous Methods
 
 * DS.defineResource(resourceDefinition) - Create a new resource for the store to manage
 * DS.inject(resourceName, model(s)) - Put models into the store
@@ -18,7 +18,7 @@ A resource is the data and meta data associated with a particular RESTful resour
 * DS.createInstance(resourceName) - Create a new Backbone model instance
 * DS.ejectAll(resourceName) - Remove all models from the store for a resource
 
-#### Asynchronous Methods
+##### Asynchronous Methods
 
 These methods return a promise
 
@@ -30,13 +30,13 @@ These methods return a promise
 
 ### Model Resources
 
-#### Synchronous Methods
+##### Synchronous Methods
 
 * DS.defineResource(resourceDefinition)
 * DS.inject(resourceName, model)
 * DS.get(resourceName)
 
-#### Asynchronous Methods
+##### Asynchronous Methods
 
 * DS.find(resourceName) - Makes a request for a model only once and resolves with the model
 
@@ -121,7 +121,7 @@ DS.getAll('person') === DS.getAll('person');
 DS.getAll('person') instanceof PersonCollection;
 ```
 
-## DS.get(resourceName, id)
+## DS.get(resourceName [, id])
 
 Synchronously get a single model from the store for a resource.
 
