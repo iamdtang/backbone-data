@@ -10,7 +10,7 @@ A simple data store for Backbone models and collections inspired by Ember Data a
 * Automatic Caching and Identity Mapping
 	* If a model had already been loaded, asking for it a second time will not make any network requests. This minimizes the number of round-trips to the server.
 * Provides a single point of entry for data access through the global variable _DS_ and works with existing Backbone models and collections.
-* Manages singletons for models and each collection type. 
+* Manages singletons for models and collections 
 	* Many times you'll need the same collection instance in multiple views. Just ask the store for the resource (`DS.getAll('person')`, `DS.findAll('person')`) and it will return or resolve with the same collection instance each time.
 	* Maybe you have a single model instance in your application, like a `UserProfile` model. The data store can also manage it as a singleton so that you get the same `UserProfile` instance every time.
 * Load models into the store specified as incomplete (lacking details). Extra details about the model can be fetched and cached on subsequent requests. Particularly useful if your models have a lot of data that might not be needed.
