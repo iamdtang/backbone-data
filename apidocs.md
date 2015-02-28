@@ -30,8 +30,6 @@ These methods return a promise
 
 ### Model Resources
 
-This is useful if you want to manage a single model in your application, like a user profile that is tied to the user's session.
-
 #### Synchronous Methods
 
 * DS.defineResource(resourceDefinition)
