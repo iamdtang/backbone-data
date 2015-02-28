@@ -4,6 +4,7 @@
 	var store = {};
 	var incomplete = {};
 	var collectionStatus = {};
+	var modelFetched = {};
 	
 	/**
 	 * @param  {String} resourceName 	The name of the resource when defined
@@ -173,9 +174,15 @@
 		var dfd = new $.Deferred();
 		var model = this.get(resourceName);
 
-		model.fetch().then(function() {
+		if (modelFetched[resourceName]) {
 			dfd.resolve(model);
-		});
+		} else {
+			model.fetch().then(function() {
+				modelFetched[resourceName] = true;
+				dfd.resolve(model);
+			});	
+		}
+		
 
 		return dfd.promise();
 	}
@@ -318,6 +325,7 @@
 		resources = {};
 		incomplete = {};
 		collectionStatus = {};
+		modelFetched = {};
 
 		return this;
 	};

@@ -118,7 +118,7 @@ describe('find()', function() {
 	});
 
 	describe('model resource', function() {
-		it('should make a request for a model if it is not in the store', function(done) {
+		it('should make a request for a model if it has not been fetched', function(done) {
 			var server = sinon.fakeServer.create();
 			server.respondWith("GET", "/profile",
 		        [200, { "Content-Type": "application/json" },
@@ -140,6 +140,34 @@ describe('find()', function() {
 
 			server.respond();
 			server.restore();
+		});
+
+		it('should not make a request for a model if it has been fetched', function(done) {
+			var spy = sinon.spy(Backbone.Model.prototype, 'fetch');
+			var server = sinon.fakeServer.create();
+			server.respondWith("GET", "/profile",
+		        [200, { "Content-Type": "application/json" },
+		         '{ "name": "Sean", "age": 34 }']);
+
+			var UserProfile = Backbone.Model.extend({
+				url: '/profile'
+			});
+
+			DS.defineResource({
+				name: 'profile',
+				model: UserProfile
+			});
+
+			DS.find('profile').then(function() {
+				DS.find('profile').then(function() {
+					expect(spy.callCount).to.equal(1);
+					done();
+				});
+			});
+
+			server.respond();
+			server.restore();
+			Backbone.Model.prototype.fetch.restore();
 		});
 
 		it('should resolve with the model', function(done) {

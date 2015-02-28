@@ -10,7 +10,9 @@ A simple data store for backbone models and collections inspired by Ember Data a
 * Automatic Caching and Identity Mapping - If a model had already been loaded, asking for it a second time will always return the same object instance. This minimizes the number of round-trips to the server.
 * Provides a single point of entry for data access through the global variable _DS_
 * Works with existing Backbone models and collections.
-* Manages singletons for each collection type. Many times you'll need the same collection instance in multiple views. Just ask for a collection type from the store (_DS.getAll('person')_, _DS.findAll('person')_) and it will return/resolve with the same collection instance each time.
+* Manages singletons for models and each collection type. 
+	* Many times you'll need the same collection instance in multiple views. Just ask for a collection type from the store (`DS.getAll('person')`, `DS.findAll('person')`) and it will return or resolve with the same collection instance each time.
+	* Maybe you have a single model instance in your application, like a `UserProfile` model. The data store can also manage it as a singleton so that you get the same `UserProfile` instance every time.
 * Load models into the store specified as incomplete (lacking details). Extra details about the model can be fetched and cached on subsequent requests. Particularly useful if your models have a lot of data that might not be needed.
 * Easily create new filtered collections
 * AMD compatible
@@ -63,6 +65,8 @@ These methods return a promise
 
 ## Model Resources
 
+This is useful if you want to manage a single model in your application, like a user profile that is tied to the user's session.
+
 ### Synchronous Methods
 
 * DS.defineResource(resourceDefinition)
@@ -71,7 +75,7 @@ These methods return a promise
 
 ### Asynchronous Methods
 
-* DS.find(resourceName) - Makes a request and resolves with the model
+* DS.find(resourceName) - Makes a request for a model only once and resolves with the model
 
 [API Documentation](apidocs.md)
 
