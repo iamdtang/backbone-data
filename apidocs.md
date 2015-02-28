@@ -1,6 +1,47 @@
 API Documentation
 =================
 
+## Overview
+
+A resource is the data and meta data associated with a particular RESTful resource. In this library, a resource is broken out into two types: collection resources and model resources. A collection resource is when there can be 1 to many items for a resource. For example, an application could have 1 to many orders. A model resource on the other hand is when you only ever have one instance of something, like a `UserProfile` model tied to the logged-in user's session.
+
+### Collection Resources
+
+#### Synchronous Methods
+
+* DS.defineResource(resourceDefinition) - Create a new resource for the store to manage
+* DS.inject(resourceName, model(s)) - Put models into the store
+* DS.get(resourceName, id) - Return a single model from the store, or null otherwise
+* DS.getAll(resourceName) - Return a collection of models from the store
+* DS.where(resourceName, attributes) - Similar to Backbone.Collection's where method but returns a new collection instance of the collection type specified for resourceName
+* DS.filter(resourceName, predicate) - Proxies to collection.filter() but returns a new collection instance of the collection type specified for resourceName
+* DS.createInstance(resourceName) - Create a new Backbone model instance
+* DS.ejectAll(resourceName) - Remove all models from the store for a resource
+
+#### Asynchronous Methods
+
+These methods return a promise
+
+* DS.find(resourceName, id [, options]) - Resolves with the model retrieved and injected into the store
+* DS.findAll(resourceName [, options]) - Resolves with the collection instance managed by the store for _resourceName_
+* DS.create(resourceName, model) - Resolves with the newly created and injected model
+* DS.destroy(resourceName, id) - Destroy a model in the store
+* DS.update(resourceName, id, properties) - Update a model in the store and resolves with model
+
+### Model Resources
+
+This is useful if you want to manage a single model in your application, like a user profile that is tied to the user's session.
+
+#### Synchronous Methods
+
+* DS.defineResource(resourceDefinition)
+* DS.inject(resourceName, model)
+* DS.get(resourceName)
+
+#### Asynchronous Methods
+
+* DS.find(resourceName) - Makes a request for a model only once and resolves with the model
+
 ## DS.defineResource(resourceDefinition)
 
 #### Collection Resource
