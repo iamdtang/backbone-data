@@ -57,10 +57,6 @@
 		if (!resourceDefinition.hasOwnProperty('name') || !resourceDefinition['name']) {
 			throw new Error('name must be specified when defining a resource');	
 		}
-
-		if (!resourceDefinition.hasOwnProperty('model') || !_.isFunction(resourceDefinition['model'])) {
-			throw new Error('model must be specified when defining a resource');
-		}
 		
 		if (!resourceDefinition.hasOwnProperty('idAttribute') || !resourceDefinition['idAttribute']) {
 			if (resourceDefinition.collection) {
@@ -70,6 +66,10 @@
 
 		if (resources[resourceDefinition.name]) {
 			throw new Error(resourceDefinition.name + ' resource has already been defined!');
+		}
+
+		if (!resourceDefinition.model && resourceDefinition.collection) {
+			resourceDefinition.model = resourceDefinition.collection.prototype.model;
 		}
 
 		resources[resourceDefinition.name] = resourceDefinition;

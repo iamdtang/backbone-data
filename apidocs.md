@@ -44,7 +44,7 @@ These methods return a promise
 
 #### Collection Resource
 
-Create a collection resource by specifying a Backbone model, collection, a unique name, and the property name that uniquely identifies the models for this resource type (the primary key).
+Create a collection resource by specifying a collection, a unique name, and the property name that uniquely identifies the models for this resource type (the primary key).
 
 ```js
 var Person = Backbone.Model.extend({
@@ -60,10 +60,29 @@ var PersonCollection = Backbone.Collection.extend({
 DS.defineResource({
 	name: 'person',
 	idAttribute: 'id', // 'id' is the default
-	model: Person,
 	collection: PersonCollection
 });
 ```
+
+The model associated with the collection will be used to create new objects. Alternatively, you can pass in a model and that will be used instead.
+
+```js
+var Person = Backbone.Model.extend({
+	url: function() {
+		return '/people/' + this.get('id')
+	}
+});
+
+var PersonCollection = Backbone.Collection.extend();
+
+DS.defineResource({
+	name: 'person',
+	idAttribute: 'id', // 'id' is the default
+	collection: PersonCollection,
+	model: Person
+});
+```
+
 
 #### Model Resource
 
