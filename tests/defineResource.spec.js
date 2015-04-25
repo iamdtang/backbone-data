@@ -14,7 +14,7 @@ describe('defineResource()', function() {
 		DS.reset();
 	});
 
-	it('should use the model associated with the collection if one exists', function() {
+	it('should use the model associated with the collection if a collection resource', function() {
 		var Person = Backbone.Model.extend();
 		var People = Backbone.Collection.extend({
 			model: Person
@@ -28,6 +28,23 @@ describe('defineResource()', function() {
 
 		var david = DS.createInstance('person');
 		expect(david).to.be.an.instanceof(Person);
+	});
+
+	it('should use Backbone.Collection if no collection is specified and idAttribute is present', function() {
+		DS.defineResource({
+			name: 'employee',
+			idAttribute: 'id'
+		});
+
+		expect(DS.getAll('employee')).to.be.an.instanceof(Backbone.Collection);
+	});
+
+	it('should use Backbone.Model for model resources if none is specified', function() {
+		expect(function() {
+			DS.defineResource({
+				name: 'user'
+			});
+		}).not.to.throw(Error);
 	});
 
 	it('should throw an error if name is not provided', function() {

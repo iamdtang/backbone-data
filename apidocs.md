@@ -1,13 +1,23 @@
 API Documentation
 =================
 
-## Overview
+## The Global DS
+
+The global `DS` variable is a `Backbone.Model` singleton for you to get/set arbitrary data that you may need in several places of your application.
+
+```js
+DS.set('isLoggedIn', true);
+DS.get('isLoggedIn'); // true
+DS instanceof Backbone.Model // true
+```
+
+## Data Store Resources
 
 A resource is the data and meta data associated with a particular RESTful resource. In this library, a resource is broken out into two types: collection resources and model resources. A collection resource is when there can be 1 to many items for a resource. For example, an application could have 1 to many orders. A model resource on the other hand is when you only ever have one instance of something, like a `UserProfile` model tied to the logged-in user's session.
 
 ### Collection Resources
 
-##### Synchronous Methods
+The following methods are synchronous:
 
 * DS.defineResource(resourceDefinition) - Create a new resource for the store to manage
 * DS.inject(resourceName, model(s)) - Put models into the store
@@ -18,9 +28,7 @@ A resource is the data and meta data associated with a particular RESTful resour
 * DS.createInstance(resourceName) - Create a new Backbone model instance
 * DS.ejectAll(resourceName) - Remove all models from the store for a resource
 
-##### Asynchronous Methods
-
-These methods return a promise
+The following methods are asynchronous and return a promise:
 
 * DS.find(resourceName, id [, options]) - Resolves with the model retrieved and injected into the store
 * DS.findAll(resourceName [, options]) - Resolves with the collection instance managed by the store for _resourceName_
@@ -30,21 +38,19 @@ These methods return a promise
 
 ### Model Resources
 
-##### Synchronous Methods
+The following methods are synchronous:
 
 * DS.defineResource(resourceDefinition)
 * DS.inject(resourceName, model)
 * DS.get(resourceName)
 
-##### Asynchronous Methods
+The following methods are asynchronous and return a promise:
 
 * DS.find(resourceName) - Makes a request for a model only once and resolves with the model
 
 ## DS.defineResource(resourceDefinition)
 
-#### Collection Resource
-
-Create a collection resource by specifying a collection, a unique name, and the property name that uniquely identifies the models for this resource type (the primary key).
+To create a a collection resource, specify a collection, a unique name, and `idAttribute` which is the property name that uniquely identifies the models for this resource type (the primary key). If no collection is passed in, `Backbone.Collection` will be used.
 
 ```js
 var Person = Backbone.Model.extend({
@@ -84,9 +90,7 @@ DS.defineResource({
 ```
 
 
-#### Model Resource
-
-Create a model resource by specifying a Backbone model and a unique name.
+To create a model resource, specify a Backbone model and a unique name. If no model is passed in, `Backbone.Model` will be used.
 
 ```js
 var UserProfile = Backbone.Model.extend();
@@ -295,4 +299,3 @@ Filter models in the store by attributes. Delegates to collection.where() but re
 var filteredPeople = DS.where('person', { age: 54 });
 filteredPeople instanceof PersonCollection; // true
 ```
-
