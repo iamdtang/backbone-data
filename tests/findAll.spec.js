@@ -42,7 +42,35 @@ describe('findAll()', function() {
 
 			expect(collection).to.equal(DS.getAll('person'));
 
-			done();	
+			done();
+		});
+
+		server.respond();
+		server.restore();
+	});
+
+	it("should work with a collection's parse method defined", function(done) {
+		PersonCollection.prototype.parse = function(response) {
+				return response.people;
+		};
+
+		var server = sinon.fakeServer.create();
+		var response = JSON.stringify({
+			"people":[
+				{ "name": "Vin", "age": 46 },
+				{ "name": "Paul", "age": 42 }
+			]
+		});
+		server.respondWith("GET", "/people",
+	        [200, { "Content-Type": "application/json" }, response]);
+
+		DS.findAll('person').done(function() {
+			expect(DS.getAll('person').toJSON()).to.eql([
+				{ "name": "Vin", "age": 46 },
+				{ "name": "Paul", "age": 42 }
+			]);
+
+			done();
 		});
 
 		server.respond();

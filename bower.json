@@ -1,7 +1,7 @@
 {
   "name": "backbone-data",
   "description": "A simple data store for backbone models and collections inspired by Ember Data and angular-data.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "homepage": "https://github.com/skaterdav85/backbone-data",
   "authors": [
     "David Tang"

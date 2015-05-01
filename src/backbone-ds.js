@@ -6,7 +6,7 @@
 		var incomplete = {};
 		var collectionStatus = {};
 		var modelFetched = {};
-		
+
 		/**
 		 * @param  {String} resourceName 	The name of the resource when defined
 		 * @param  {Array|Object} data		A array of object or just a plain json object
@@ -21,7 +21,7 @@
 				data.forEach(function(item) {
 					var id = item[idAttribute];
 					incomplete[resourceName][id] = true;
-				});	
+				});
 			} else {
 				id = data[idAttribute];
 				incomplete[resourceName][id] = true;
@@ -38,8 +38,8 @@
 			if (incomplete[resourceName]) {
 				return incomplete[resourceName][id];
 			}
-				
-			return false; 
+
+			return false;
 		}
 
 		function isModelResource(resourceName) {
@@ -56,12 +56,12 @@
 		 */
 		DS.defineResource = function(resourceDefinition) {
 			if (!resourceDefinition.hasOwnProperty('name') || !resourceDefinition['name']) {
-				throw new Error('name must be specified when defining a resource');	
+				throw new Error('name must be specified when defining a resource');
 			}
-			
+
 			if (!resourceDefinition.hasOwnProperty('idAttribute') || !resourceDefinition['idAttribute']) {
 				if (resourceDefinition.collection) {
-					throw new Error('idAttribute must be specified when defining a resource');	
+					throw new Error('idAttribute must be specified when defining a resource');
 				}
 			}
 
@@ -78,10 +78,10 @@
 			}
 
 			resources[resourceDefinition.name] = resourceDefinition;
-			
+
 			if (!store[resourceDefinition.name]) {
 				if (resourceDefinition.collection) {
-					store[resourceDefinition.name] = new resourceDefinition.collection();	
+					store[resourceDefinition.name] = new resourceDefinition.collection();
 				} else {
 					resourceDefinition.model = resourceDefinition.model || Backbone.Model;
 					store[resourceDefinition.name] = new resourceDefinition.model();
@@ -94,7 +94,7 @@
 		/**
 		 * Create a new instance of a resource
 		 * @param  {String} resourceName 	The name of the resource when defined
-		 * @return {Backbone.Model}       
+		 * @return {Backbone.Model}
 		 */
 		DS.createInstance = function(resourceName) {
 			return new resources[resourceName].model();
@@ -114,14 +114,14 @@
 				collection = store[resourceName];
 
 				if (options.incomplete) {
-					addIncomplete(resourceName, data);	
+					addIncomplete(resourceName, data);
 				}
-				
+
 				return collection.add(data);
 			} else {
 				model = store[resourceName];
 				return model.set(data);
-			}		
+			}
 		};
 
 		/**
@@ -153,10 +153,10 @@
 					if (model) {
 						return model;
 					}
-				}	
+				}
 			}
 
-			return null;		
+			return null;
 		};
 
 		/**
@@ -174,9 +174,9 @@
 		 */
 		DS.ejectAll = function(resourceName) {
 			var collection = store[resourceName];
-			
+
 			if (collection) {
-				collection.reset();	
+				collection.reset();
 			}
 		};
 
@@ -190,9 +190,9 @@
 				model.fetch().then(function() {
 					modelFetched[resourceName] = true;
 					dfd.resolve(model);
-				});	
+				});
 			}
-			
+
 
 			return dfd.promise();
 		}
@@ -208,13 +208,13 @@
 			idAttribute = resources[resourceName].idAttribute;
 
 
-			if (model) {			
+			if (model) {
 				if (isIncomplete(resourceName, id)) {
 					return model.fetch().then(function() {
 						delete incomplete[resourceName][id];
 						return model;
 					});
-				} 
+				}
 
 				dfd.resolve(model);
 				return dfd.promise();
@@ -224,17 +224,17 @@
 			newModel = new resources[resourceName].model(attr);
 
 			return newModel.fetch().then(function() {
-				DS.inject(resourceName, newModel);	
+				DS.inject(resourceName, newModel);
 				return newModel;
 			}, function() {
 				throw new Error('error fetching model: ' + id);
 			});
 		}
 
-		/** 
+		/**
 		 * Find a model from the store. If not in store, fetches it asynchronously
 		 * and puts the model in the store
-		 * 
+		 *
 		 * @param  {String} resourceName The name of the resource when defined
 		 * @param  {Number|String} id    The unique ID of the model to find
 		 * @return {promise}             Returns a jQuery promise
@@ -253,20 +253,29 @@
 		 */
 		DS.findAll = function(resourceName, options) {
 			var collection = store[resourceName];
+			var tempCollection;
 			var dfd = $.Deferred();
 
-			if (collectionStatus.hasOwnProperty(resourceName)) {
+			if (collectionStatus[resourceName] === 'completed') {
 				dfd.resolve(collection);
 				return dfd.promise();
 			}
 
-			return collection.fetch().then(function(models) {
-				DS.inject(resourceName, models, options);
-				collectionStatus[resourceName] = 'completed';
-				return collection;
-			}, function() {
-				throw new Error('error fetching collection: ' + resourceName);
+			tempCollection = new resources[resourceName].collection();
+
+			tempCollection.fetch({
+				success: function(models) {
+					DS.inject(resourceName, tempCollection.toJSON(), options);
+					collectionStatus[resourceName] = 'completed';
+					dfd.resolve(collection);
+				},
+
+				error: function() {
+					throw new Error('DS error fetching collection: ' + resourceName);
+				}
 			});
+
+			return dfd.promise();
 		};
 
 		/**
@@ -309,7 +318,7 @@
 		 * Saves and injects model into the store
 		 * @param  {String} resourceName 		The name of the resource when defined
 		 * @param  {Backbone.Model} model   The model to save, probably from DS.createInstance
-		 * @return {Promise}           			A promise that resolves with the model being saved   
+		 * @return {Promise}           			A promise that resolves with the model being saved
 		 */
 		DS.create = function(resourceName, model) {
 			var id = resources[resourceName].idAttribute;
