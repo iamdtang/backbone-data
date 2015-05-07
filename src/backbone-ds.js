@@ -119,7 +119,7 @@
 					addIncomplete(resourceName, data);
 				}
 
-				return collection.add(data);
+				return collection.add(data, { merge: true });
 			} else {
 				model = store[resourceName];
 				return model.set(data);

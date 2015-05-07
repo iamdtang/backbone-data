@@ -1,4 +1,6 @@
 (function(window, undefined) {
+	'use strict';
+
 	var factory = function(Backbone) {
 		var DS = new Backbone.Model();
 		var resources = {};
@@ -9,7 +11,7 @@
 
 		/**
 		 * @param  {String} resourceName 	The name of the resource when defined
-		 * @param  {Array|Object} data		A array of object or just a plain json object
+		 * @param  {Array|Object} data		An array of objects or just a plain json object
 		 */
 		function addIncomplete(resourceName, data) {
 			var idAttribute = resources[resourceName].idAttribute;
@@ -29,7 +31,7 @@
 		}
 
 		/**
-		 * Determine if a model if incomplete or not
+		 * Determine if a model is incomplete or not
 		 * @param  {String} resourceName 	The name of the resource when defined
 		 * @param  {Number|String} id     The unique ID of the model to find
 		 * @return {Boolean}              True if the model is incomplete, false if complete
@@ -52,7 +54,7 @@
 
 		/**
 		 * Define a resource for the store
-		 * @param  {Object} resourceDefinition An object containing idAttribute, name, collection, and model
+		 * @param  {Object} resourceDefinition
 		 */
 		DS.defineResource = function(resourceDefinition) {
 			if (!resourceDefinition.hasOwnProperty('name') || !resourceDefinition['name']) {
@@ -117,7 +119,7 @@
 					addIncomplete(resourceName, data);
 				}
 
-				return collection.add(data);
+				return collection.add(data, { merge: true });
 			} else {
 				model = store[resourceName];
 				return model.set(data);
@@ -193,7 +195,6 @@
 				});
 			}
 
-
 			return dfd.promise();
 		}
 
@@ -206,7 +207,6 @@
 
 			model = this.get(resourceName, id);
 			idAttribute = resources[resourceName].idAttribute;
-
 
 			if (model) {
 				if (isIncomplete(resourceName, id)) {
@@ -232,7 +232,7 @@
 		}
 
 		/**
-		 * Find a model from the store. If not in store, fetches it asynchronously
+		 * Find a model from the store. If not in store, fetches it
 		 * and puts the model in the store
 		 *
 		 * @param  {String} resourceName The name of the resource when defined
@@ -249,7 +249,7 @@
 
 		/**
 		 * Request a collection from the server once and inject models in store.
-		 * This does reset the collection for resourceName.
+		 * The temp collection is simply there for fetching the data
 		 */
 		DS.findAll = function(resourceName, options) {
 			var collection = store[resourceName];
@@ -298,10 +298,9 @@
 			var collection = store[resourceName];
 			var Collection = resources[resourceName].collection;
 			var filteredCollection = new Collection();
-
 			var models = collection.filter(predicate);
-			filteredCollection.add(models);
 
+			filteredCollection.add(models);
 			return filteredCollection;
 		};
 
@@ -329,6 +328,11 @@
 			});
 		};
 
+		/**
+		 * Simply proxies to Backbone.Model.prototype.destroy
+		 * @param  {String} resourceName 		The name of the resource when defined
+		 * @param  {Number|String} id       The unique ID of the model to find
+		 */
 		DS.destroy = function(resourceName, id) {
 			var model = this.get(resourceName, id);
 

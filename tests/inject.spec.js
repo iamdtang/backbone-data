@@ -72,4 +72,16 @@ describe('inject()', function() {
 			last: 'Tang'
 		});
 	});
+
+	it('should update a model in the store a duplicate record is injected', function() {
+		DS.inject('person', { id: 2, name: 'Jane S.', age: 24, gender: 'F' });
+		DS.inject('person', people);
+
+		expect(DS.get('person', 2).toJSON()).to.eql({
+			id: 2,
+			name: 'Jane',
+			age: 24,
+			gender: 'F'
+		});
+	});
 });
