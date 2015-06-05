@@ -193,5 +193,29 @@ describe('find()', function() {
 			server.respond();
 			server.restore();
 		});
+
+		it('should reject with the parsed error', function(done) {
+			var server = sinon.fakeServer.create();
+			server.respondWith("GET", "/profile",
+		        [400, { "Content-Type": "application/json" },
+		         '{ "error": "oh no!" }']);
+
+			var UserProfile = Backbone.Model.extend({
+				url: '/profile'
+			});
+
+			DS.defineResource({
+				name: 'profile',
+				model: UserProfile
+			});
+
+			DS.find('profile').then(function() {}, function(err) {
+				expect(err).to.eql({ error: 'oh no!' });
+				done();
+			});
+
+			server.respond();
+			server.restore();
+		});
 	});
 });

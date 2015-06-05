@@ -192,6 +192,8 @@
 				model.fetch().then(function() {
 					modelFetched[resourceName] = true;
 					dfd.resolve(model);
+				}, function(xhr) {
+					dfd.reject(JSON.parse(xhr.responseText));
 				});
 			}
 
