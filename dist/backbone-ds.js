@@ -228,8 +228,8 @@
 			return newModel.fetch().then(function() {
 				DS.inject(resourceName, newModel);
 				return newModel;
-			}, function() {
-				throw new Error('error fetching model: ' + id);
+			}, function(response) {
+				return JSON.parse(response.responseText);
 			});
 		}
 

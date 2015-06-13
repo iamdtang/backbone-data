@@ -53,7 +53,22 @@ describe('find()', function() {
 
 			DS.find('person', 12345).done(function() {
 				expect(DS.get('person', 12345).toJSON()).to.eql({ "id": 12345, "name": "Gwen" });
-				done();	
+				done();
+			});
+
+			server.respond();
+			server.restore();
+		});
+
+		it('should resolve with the parsed json error', function(done) {
+			var server = sinon.fakeServer.create();
+			server.respondWith("GET", "/people/12345",
+		        [400, { "Content-Type": "application/json" },
+		         '{ "error": "some error" }']);
+
+			DS.find('person', 12345).then(function() {}, function(response) {
+				expect(response).to.eql({ error: 'some error' });
+				done();
 			});
 
 			server.respond();
